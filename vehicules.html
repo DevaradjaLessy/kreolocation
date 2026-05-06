@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="KreoLocation – Catalogue complet de nos véhicules à louer à La Réunion. Tarifs, équipements et disponibilités." />
+  <title>Nos Véhicules – KreoLocation 🇷🇪</title>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TYPOGRAPHIES – identiques à index.html
+  ═══════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN TOKENS – copie exacte de index.html
+       Modifier ici = modifier l'identité visuelle des deux pages.
+    ═══════════════════════════════════════════════════════════ */
+    :root {
+      --white:         #FFFFFF;
+      --off-white:     #F8F6F2;
+      --surface:       #F2EFE9;
+      --border:        #E5E0D8;
+      --green-deep:    #1B3A2D;
+      --green-mid:     #2D6A4F;
+      --green-sage:    #52796F;
+      --green-light:   #D8EAD3;
+      --green-pale:    #EEF5EC;
+      --text-primary:  #1C1C1A;
+      --text-secondary:#5A5A56;
+      --text-muted:    #9A9A94;
+      --font-display:  'Cormorant Garamond', Georgia, serif;
+      --font-body:     'Nunito Sans', system-ui, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 2px 12px rgba(27,58,45,0.07);
+      --shadow-md: 0 8px 40px rgba(27,58,45,0.12);
+      --shadow-lg: 0 24px 80px rgba(27,58,45,0.18);
+      --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out:  cubic-bezier(0, 0, 0.2, 1);
+      --duration:  280ms;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESET & BASE – identiques à index.html
+    ═══════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPOSANTS PARTAGÉS – boutons, eyebrow, titres
+    ═══════════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background var(--duration) var(--ease),
+                  transform  var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease),
+                  color      var(--duration) var(--ease);
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--green-mid);
+      color: var(--white);
+      padding: 13px 24px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--green-deep);
+      box-shadow: 0 8px 28px rgba(45,106,79,0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green-mid);
+      padding: 12px 22px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--green-mid);
+    }
+    .btn-outline:hover {
+      background: var(--green-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-wa {
+      background: #25D366;
+      color: var(--white);
+      padding: 13px 22px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+    .btn-wa:hover {
+      background: #1EB356;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37,211,102,0.45);
+    }
+    .btn svg { flex-shrink: 0; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green-sage);
+      margin-bottom: 14px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1.5px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--green-deep);
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+    }
+    .section-title em { font-style: italic; font-weight: 400; color: var(--green-sage); }
+
+    .section-lead {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 540px;
+      line-height: 1.75;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       NAVIGATION – identique à index.html
+       Sur vehicules.html, la navbar démarre directement scrollée
+       (fond blanc) car il n'y a pas de hero image.
+    ═══════════════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      /* Toujours blanc sur cette page (pas de hero image) */
+      background: rgba(255,255,255,0.97);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(24px, 4vw, 60px);
+      width: 100%;
+    }
+
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .logo-name {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      letter-spacing: 0.01em;
+    }
+    .logo-name .dot { color: var(--green-mid); }
+    .logo-sub {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.5vw, 36px);
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--text-secondary);
+      position: relative;
+      transition: color var(--duration) var(--ease);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--green-mid);
+      transition: width var(--duration) var(--ease);
+    }
+    .nav-links a:hover { color: var(--green-deep); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Lien actif (page en cours) */
+    .nav-links a.active {
+      color: var(--green-deep);
+      font-weight: 700;
+    }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--green-mid) !important;
+      color: var(--white) !important;
+      padding: 10px 22px !important;
+      border-radius: var(--radius-sm) !important;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      box-shadow: 0 4px 16px rgba(45,106,79,0.3) !important;
+      transition: background var(--duration) var(--ease),
+                  transform  var(--duration) var(--ease) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--green-deep) !important;
+      transform: translateY(-1px);
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .burger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--green-deep);
+      border-radius: 2px;
+      transition: transform var(--duration) var(--ease),
+                  opacity var(--duration) var(--ease);
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 76px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      padding: 16px 0 24px;
+      z-index: 199;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 14px clamp(20px, 5vw, 60px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover,
+    .mobile-menu a.active { background: var(--green-pale); color: var(--green-deep); font-weight: 700; }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO INTERNE (bannière de page, pas de full-screen)
+       Remplace le grand hero par un bandeau sobre et élégant.
+    ═══════════════════════════════════════════════════════════ */
+    .page-hero {
+      background: var(--green-deep);
+      padding: 120px 0 64px; /* 120px pour compenser la navbar fixed */
+      position: relative;
+      overflow: hidden;
+    }
+    /* Motif décoratif géométrique en arrière-plan */
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -120px; left: -40px;
+      width: 350px; height: 350px;
+      border-radius: 50%;
+      background: rgba(45,106,79,0.35);
+      pointer-events: none;
+    }
+    .page-hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    /* Fil d'Ariane */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 16px;
+    }
+    .breadcrumb a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color var(--duration) var(--ease);
+    }
+    .breadcrumb a:hover { color: rgba(255,255,255,0.9); }
+    .breadcrumb svg { opacity: 0.4; }
+
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    .page-hero-title em { font-style: italic; font-weight: 400; color: #a8d5be; }
+
+    .page-hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    /* Compteur de véhicules dans le hero */
+    .hero-counter {
+      display: flex;
+      gap: 28px;
+      flex-shrink: 0;
+    }
+    .counter-item {
+      text-align: center;
+    }
+    .counter-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #a8d5be;
+      line-height: 1;
+      display: block;
+    }
+    .counter-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FILTRE / BARRE D'OPTIONS
+    ═══════════════════════════════════════════════════════════ */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      position: sticky;
+      top: 76px; /* colle sous la navbar */
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .filter-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+    /* Boutons-filtres */
+    .filter-btn {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: background var(--duration) var(--ease),
+                  color var(--duration) var(--ease),
+                  border-color var(--duration) var(--ease);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--green-pale);
+      color: var(--green-deep);
+      border-color: var(--green-light);
+    }
+    .filter-btn.active { font-weight: 700; }
+
+    /* ═══════════════════════════════════════════════════════════
+       GRILLE DE VÉHICULES
+    ═══════════════════════════════════════════════════════════ */
+    .section {
+      padding: clamp(56px, 8vw, 96px) 0;
+    }
+    .section--alt { background: var(--off-white); }
+
+    .catalogue-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    /* Grille principale : 3 colonnes desktop, 2 tablette, 1 mobile */
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* ── Carte véhicule ── */
+    .vehicle-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease),
+                  border-color var(--duration) var(--ease);
+    }
+    .vehicle-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--green-light);
+    }
+
+    /* Thumbnail illustrée */
+    .card-thumb {
+      height: 190px;
+      background: linear-gradient(135deg, var(--green-pale) 0%, var(--green-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-thumb::before {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(82,121,111,0.07);
+      top: -70px; right: -70px;
+    }
+    /* Variantes de couleur pour diversifier visuellement les cartes */
+    .card-thumb--dark  { background: linear-gradient(135deg, #1B3A2D 0%, #2D6A4F 100%); }
+    .card-thumb--sage  { background: linear-gradient(135deg, #e8f2e8 0%, #c5dfc5 100%); }
+    .card-thumb--warm  { background: linear-gradient(135deg, #f5f0e8 0%, #e8ddd0 100%); }
+
+    .card-thumb-emoji {
+      font-size: 4.5rem;
+      filter: drop-shadow(0 8px 20px rgba(27,58,45,0.15));
+      position: relative;
+      z-index: 1;
+      transition: transform var(--duration) var(--ease);
+    }
+    .vehicle-card:hover .card-thumb-emoji {
+      transform: scale(1.08) translateY(-4px);
+    }
+
+    /* Badges */
+    .card-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+    .badge-available { background: var(--green-mid); color: var(--white); }
+    .badge-soon      { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); }
+    .badge-new       { background: #e8a020; color: var(--white); }
+
+    /* Étoiles de popularité */
+    .card-stars {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-size: 0.65rem;
+      color: #f0b429;
+      letter-spacing: 1px;
+    }
+
+    .card-body {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .card-category {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-sage);
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+    .card-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Tags équipements */
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--green-sage);
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    /* Description courte */
+    .card-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    /* Footer carte */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-price {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1;
+    }
+    .card-price small {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .card-price-note {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── Carte "vedette" (featured) : occupe 2 colonnes ── */
+    .vehicle-card--featured {
+      grid-column: span 2;
+      flex-direction: row;
+    }
+    .vehicle-card--featured .card-thumb {
+      width: 260px;
+      min-width: 260px;
+      height: auto;
+      flex-shrink: 0;
+      border-radius: 0;
+    }
+    .vehicle-card--featured .card-thumb-emoji { font-size: 5.5rem; }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION MINI-WIDGET (réservation rapide, sans le hero)
+    ═══════════════════════════════════════════════════════════ */
+    .quick-reserve {
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 4vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 56px;
+    }
+    .quick-reserve-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 6px;
+    }
+    .quick-reserve-text p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 420px;
+      line-height: 1.6;
+    }
+    .quick-reserve-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION : INFORMATIONS PRATIQUES
+    ═══════════════════════════════════════════════════════════ */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .info-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-mid);
+      margin-bottom: 16px;
+    }
+    .info-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+    .info-card p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER – identique à index.html
+    ═══════════════════════════════════════════════════════════ */
+    #footer {
+      background: var(--green-deep);
+      color: rgba(255,255,255,0.7);
+      padding: clamp(40px, 6vw, 64px) 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 32px;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .footer-brand span { color: #a8d5be; }
+    .footer-tagline { font-style: italic; font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+    .footer-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.45); }
+    .footer-col h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color var(--duration) var(--ease);
+    }
+    .footer-col a:hover { color: #a8d5be; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       TOAST NOTIFICATION
+    ═══════════════════════════════════════════════════════════ */
+    #toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--green-deep);
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 500;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+      pointer-events: none;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast .t-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #25D366;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ANIMATIONS AU SCROLL
+    ═══════════════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    .reveal-delay-5 { transition-delay: 0.40s; }
+    .reveal-delay-6 { transition-delay: 0.48s; }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE – MOBILE FIRST
+    ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      /* 3 colonnes → 2 colonnes */
+      .vehicles-grid { grid-template-columns: repeat(2, 1fr); }
+      .vehicle-card--featured { grid-column: span 2; }
+    }
+
+    @media (max-width: 768px) {
+      /* Carte featured : passe en colonne */
+      .vehicle-card--featured { grid-column: span 1; flex-direction: column; }
+      .vehicle-card--featured .card-thumb { width: 100%; height: 190px; }
+      /* Footer : 1 colonne */
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .page-hero-inner { flex-direction: column; align-items: flex-start; }
+      .hero-counter { gap: 20px; }
+    }
+
+    @media (max-width: 640px) {
+      /* 2 colonnes → 1 colonne */
+      .vehicles-grid { grid-template-columns: 1fr; }
+      .vehicle-card--featured { grid-column: span 1; }
+      /* Burger visible */
+      .nav-links { display: none; }
+      .burger    { display: flex; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  NAVIGATION
+       ║  Identique à index.html. Lien actif = "Nos Véhicules".
+       ╚═══════════════════════════════════════════════════════════ -->
+  <header id="navbar" role="banner">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Navigation principale">
+
+        <a href="index.html" class="nav-logo" aria-label="KreoLocation – Retour à l'accueil">
+          <span class="logo-name">Kreo<span class="dot">Location</span></span>
+          <span class="logo-sub">La Réunion · 974</span>
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="vehicules.html" class="active">Nos Véhicules</a></li>
+          <li><a href="index.html#features">Nos engagements</a></li>
+          <li><a href="index.html#conciergerie">Conciergerie</a></li>
+          <li>
+            <a href="#" class="nav-cta" id="navCtaWa">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;display:inline;vertical-align:middle;margin-right:5px" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Réserver
+            </a>
+          </li>
+        </ul>
+
+        <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Menu mobile -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Menu mobile">
+    <a href="vehicules.html" class="active" onclick="closeMenu()">Nos Véhicules</a>
+    <a href="index.html#features" onclick="closeMenu()">Nos engagements</a>
+    <a href="index.html#conciergerie" onclick="closeMenu()">Conciergerie</a>
+    <a href="#" onclick="reserverVehicule();closeMenu()" style="color:var(--green-mid);font-weight:700">Réserver via WhatsApp</a>
+  </nav>
+
+  <main>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  BANDEAU HERO DE PAGE
+         ║  Sobre mais distinctif. Remplace le grand hero de l'accueil.
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section class="page-hero" aria-label="En-tête de la page Véhicules">
+      <div class="container">
+        <div class="page-hero-inner">
+          <div>
+            <!-- Fil d'Ariane -->
+            <nav class="breadcrumb" aria-label="Fil d'Ariane">
+              <a href="index.html">Accueil</a>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+              <span>Nos Véhicules</span>
+            </nav>
+            <h1 class="page-hero-title">
+              Notre <em>flotte</em><br />à votre service
+            </h1>
+            <p class="page-hero-sub">
+              Citadines économiques, SUV familiaux, utilitaires pros —
+              tous nettoyés, assurés et livrés où vous le souhaitez sur l'île.
+            </p>
+          </div>
+
+          <!-- Compteurs -->
+          <div class="hero-counter" aria-label="Chiffres clés">
+            <div class="counter-item">
+              <span class="counter-num">6+</span>
+              <span class="counter-label">Véhicules</span>
+            </div>
+            <div class="counter-item">
+              <span class="counter-num">7j/7</span>
+              <span class="counter-label">Disponible</span>
+            </div>
+            <div class="counter-item">
+              <span class="counter-num">0€</span>
+              <span class="counter-label">Frais cachés</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  BARRE DE FILTRES
+         ║  Filtrage visuel par catégorie (JS léger).
+         ╚═══════════════════════════════════════════════════════════ -->
+    <div class="filter-bar" role="navigation" aria-label="Filtres de véhicules">
+      <div class="container">
+        <div class="filter-inner">
+          <span class="filter-label">Filtrer :</span>
+          <button class="filter-btn active" data-filter="all">Tous les véhicules</button>
+          <button class="filter-btn" data-filter="citadine">Citadines</button>
+          <button class="filter-btn" data-filter="suv">SUV & 4x4</button>
+          <button class="filter-btn" data-filter="famille">Famille</button>
+          <button class="filter-btn" data-filter="utilitaire">Utilitaires</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  CATALOGUE COMPLET
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="catalogue-title">
+      <div class="container">
+
+        <div class="catalogue-header reveal">
+          <div>
+            <span class="eyebrow">Catalogue complet</span>
+            <h2 class="section-title" id="catalogue-title">
+              Choisissez votre <em>véhicule</em>
+            </h2>
+          </div>
+          <p class="section-lead" style="max-width:380px">
+            Tous nos tarifs sont affichés TTC, kilométrage illimité inclus.
+            Livraison possible partout sur l'île.
+          </p>
+        </div>
+
+        <!-- ── GRILLE DES VÉHICULES ────────────────────────────── -->
+        <div class="vehicles-grid" id="vehiclesGrid">
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               CARTE VEDETTE : Renault Clio 5 (2 colonnes desktop)
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article
+            class="vehicle-card vehicle-card--featured reveal reveal-delay-1"
+            data-category="citadine"
+            aria-label="Renault Clio 5 – Notre véhicule phare">
+            <div class="card-thumb">
+              <span class="card-badge badge-available">Disponible</span>
+              <span class="card-stars" aria-label="5 étoiles">★★★★★</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚗</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Citadine · Notre véhicule phare</span>
+              <h3 class="card-name">Renault Clio 5</h3>
+              <p class="card-sub">2023 · Essence · Manuelle · Climatisation automatique</p>
+              <div class="card-tags">
+                <span class="tag">👥 4 passagers</span>
+                <span class="tag">❄️ Clim auto</span>
+                <span class="tag">📻 Bluetooth</span>
+                <span class="tag">🔋 Essence</span>
+                <span class="tag">🎵 USB</span>
+                <span class="tag">🛡️ Assuré</span>
+              </div>
+              <p class="card-desc">
+                Notre modèle phare, idéal pour découvrir l'île en solo ou en couple.
+                Économique, agile et facile à garer dans le centre-ville de Saint-Denis.
+                Livrable directement à l'aéroport Roland Garros.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">45€ <small>/ jour</small></p>
+                  <p class="card-price-note">Kilométrage illimité · Essence à la charge du locataire</p>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  onclick="reserverVehicule('Renault Clio 5', '45€/jour')"
+                  aria-label="Réserver la Renault Clio 5">
+                  Réserver maintenant
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               Citadine 2 : Peugeot 208
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article class="vehicle-card reveal reveal-delay-2" data-category="citadine">
+            <div class="card-thumb card-thumb--sage">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚙</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Citadine</span>
+              <h3 class="card-name">Peugeot 208</h3>
+              <p class="card-sub">2022 · Essence · Automatique</p>
+              <div class="card-tags">
+                <span class="tag">👥 4 passagers</span>
+                <span class="tag">❄️ Clim auto</span>
+                <span class="tag">🎵 Apple CarPlay</span>
+                <span class="tag">📸 Caméra recul</span>
+              </div>
+              <p class="card-desc">
+                Compacte et sportive, la 208 est parfaite pour les routes côtières.
+                Boîte automatique appréciée par les touristes.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">50€ <small>/ jour</small></p>
+                  <p class="card-price-note">Kilométrage illimité</p>
+                </div>
+                <button
+                  class="btn btn-outline"
+                  onclick="reserverVehicule('Peugeot 208', '50€/jour')"
+                  aria-label="Pré-réserver la Peugeot 208">
+                  Pré-réserver
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               SUV compact : Dacia Duster
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article class="vehicle-card reveal reveal-delay-3" data-category="suv">
+            <div class="card-thumb card-thumb--warm">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚙</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">SUV Compact</span>
+              <h3 class="card-name">Dacia Duster 4x4</h3>
+              <p class="card-sub">2023 · Diesel · 4x4 · Automatique</p>
+              <div class="card-tags">
+                <span class="tag">👥 5 passagers</span>
+                <span class="tag">🏔️ Tout-terrain</span>
+                <span class="tag">🧳 Grand coffre</span>
+                <span class="tag">⛽ Diesel</span>
+              </div>
+              <p class="card-desc">
+                Le meilleur rapport qualité/prix pour accéder aux sentiers de montagne.
+                Idéal pour Cilaos, Salazie ou les routes du volcan.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">65€ <small>/ jour</small></p>
+                  <p class="card-price-note">Kilométrage illimité</p>
+                </div>
+                <button
+                  class="btn btn-outline"
+                  onclick="reserverVehicule('Dacia Duster 4x4', '65€/jour')"
+                  aria-label="Pré-réserver le Dacia Duster">
+                  Pré-réserver
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               SUV Famille : Renault Scenic 7 places
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article class="vehicle-card reveal reveal-delay-4" data-category="suv famille">
+            <div class="card-thumb card-thumb--dark">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-stars" aria-label="4 étoiles">★★★★☆</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚐</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">SUV Familial · 7 places</span>
+              <h3 class="card-name" style="color:var(--green-deep)">Renault Scénic E-Tech</h3>
+              <p class="card-sub">2023 · Électrique · 7 places</p>
+              <div class="card-tags">
+                <span class="tag">👨‍👩‍👧‍👦 7 passagers</span>
+                <span class="tag">⚡ Électrique</span>
+                <span class="tag">🎵 Apple CarPlay</span>
+                <span class="tag">📸 Caméra 360°</span>
+                <span class="tag">🧳 Grand coffre</span>
+              </div>
+              <p class="card-desc">
+                Spacieux, silencieux, et idéal pour les familles. Les 7 places le rendent
+                parfait pour les sorties découverte en groupe. Recharge incluse lors des
+                retours en agence.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">85€ <small>/ jour</small></p>
+                  <p class="card-price-note">Recharge offerte à chaque retour</p>
+                </div>
+                <button
+                  class="btn btn-outline"
+                  onclick="reserverVehicule('Renault Scénic E-Tech 7 places', '85€/jour')"
+                  aria-label="Pré-réserver le Renault Scénic">
+                  Pré-réserver
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               Famille : Citroën C3 Aircross 7 places
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article class="vehicle-card reveal reveal-delay-5" data-category="famille">
+            <div class="card-thumb">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚗</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Monospace Famille</span>
+              <h3 class="card-name">Citroën C3 Aircross</h3>
+              <p class="card-sub">2023 · Essence · 7 places</p>
+              <div class="card-tags">
+                <span class="tag">👨‍👩‍👧‍👦 7 passagers</span>
+                <span class="tag">❄️ Clim auto</span>
+                <span class="tag">🧳 Modulable</span>
+                <span class="tag">🔊 Sono premium</span>
+              </div>
+              <p class="card-desc">
+                Modulable et confortable, l'Aircross accueille toute la famille avec
+                les bagages. Parfait pour un séjour de 7 jours en faisant le tour de l'île.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">75€ <small>/ jour</small></p>
+                  <p class="card-price-note">À partir de 5 jours : 65€/jour</p>
+                </div>
+                <button
+                  class="btn btn-outline"
+                  onclick="reserverVehicule('Citroën C3 Aircross 7 places', '75€/jour')"
+                  aria-label="Pré-réserver le Citroën C3 Aircross">
+                  Pré-réserver
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+               Utilitaire : Renault Trafic
+          ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ -->
+          <article class="vehicle-card reveal reveal-delay-6" data-category="utilitaire">
+            <div class="card-thumb card-thumb--warm">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚚</span>
+            </div>
+            <div class="card-body">
+              <span class="card-category">Utilitaire · Usage Pro</span>
+              <h3 class="card-name">Renault Trafic</h3>
+              <p class="card-sub">Fourgon · Diesel · Grand volume</p>
+              <div class="card-tags">
+                <span class="tag">📦 Grand volume</span>
+                <span class="tag">🏗️ Déménagement</span>
+                <span class="tag">🔧 Usage pro</span>
+                <span class="tag">⛽ Diesel</span>
+              </div>
+              <p class="card-desc">
+                Pour vos déménagements, livraisons professionnelles ou transports de
+                matériel. Disponible à la journée ou à la semaine sur devis personnalisé.
+              </p>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price" style="font-size:1.2rem">Sur devis</p>
+                  <p class="card-price-note">Tarif selon durée & usage</p>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  onclick="reserverVehicule('Renault Trafic Utilitaire', 'Tarif sur devis')"
+                  aria-label="Demander un devis pour l'utilitaire">
+                  Demander un devis
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /#vehiclesGrid -->
+
+        <!-- ── Bloc de réservation rapide en bas de grille ── -->
+        <div class="quick-reserve reveal">
+          <div class="quick-reserve-text">
+            <h3>Vous ne trouvez pas ce qu'il vous faut ?</h3>
+            <p>
+              Contactez-nous directement sur WhatsApp. On cherche dans notre réseau de
+              partenaires péi pour trouver le véhicule qui correspond à vos besoins.
+            </p>
+          </div>
+          <div class="quick-reserve-actions">
+            <a
+              href="https://wa.me/262XXXXXXXXX?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20cherche%20un%20v%C3%A9hicule%20sp%C3%A9cifique%20et%20j%27aimerais%20votre%20aide."
+              class="btn btn-wa"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="Contacter KreoLocation sur WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Nous contacter
+            </a>
+            <a href="index.html" class="btn btn-outline">
+              ← Retour à l'accueil
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  INFORMATIONS PRATIQUES
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section class="section section--alt" aria-labelledby="info-title">
+      <div class="container">
+
+        <header class="section-header reveal" style="margin-bottom:40px">
+          <span class="eyebrow">Informations pratiques</span>
+          <h2 class="section-title" id="info-title">
+            Tout ce qu'il faut <em>savoir</em>
+          </h2>
+        </header>
+
+        <div class="info-grid">
+
+          <div class="info-card reveal reveal-delay-1">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h4>Documents requis</h4>
+            <p>Permis de conduire valide (B minimum), pièce d'identité et carte bancaire au nom du conducteur principal. Permis international accepté pour les touristes.</p>
+          </div>
+
+          <div class="info-card reveal reveal-delay-2">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h4>Assurance incluse</h4>
+            <p>Tous nos véhicules sont couverts par une assurance tous risques. Un dépôt de garantie est demandé à la signature du contrat, restitué à la restitution du véhicule.</p>
+          </div>
+
+          <div class="info-card reveal reveal-delay-3">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.6 18a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 3.18 2 2 0 0 1 4.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 14 14.91l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <h4>Livraison & restitution</h4>
+            <p>Livraison possible à l'aéroport Roland Garros, à votre domicile, à votre hôtel ou en tout autre point convenu. Restitution identique, aux horaires que vous choisissez.</p>
+          </div>
+
+          <div class="info-card reveal reveal-delay-4">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <h4>Durée de location</h4>
+            <p>Location minimum 1 jour. Tarifs dégressifs à partir de 5 jours et 7 jours. Contactez-nous pour les séjours longue durée (>15 jours) : tarifs négociables.</p>
+          </div>
+
+          <div class="info-card reveal reveal-delay-5">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h4>Disponibilité 7j/7</h4>
+            <p>Nous sommes disponibles 7 jours sur 7, y compris les jours fériés. Réponse WhatsApp garantie en moins de 15 minutes de 7h à 21h.</p>
+          </div>
+
+          <div class="info-card reveal reveal-delay-6">
+            <div class="info-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h4>Tarifs & paiement</h4>
+            <p>Paiement par virement, espèces ou carte bancaire. Prix TTC affichés, sans frais cachés. Un acompte de 30% est demandé à la réservation.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  FOOTER – identique à index.html
+       ╚═══════════════════════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <p class="footer-brand">Kreo<span>Location</span></p>
+          <p class="footer-tagline">« Nout ti véhicule Péi »</p>
+          <p class="footer-desc">
+            Agence de location de véhicules locale, premium et flexible.
+            Basée à La Réunion 🇷🇪, au service des habitants et des voyageurs
+            depuis l'aéroport Roland Garros jusqu'aux sommets de l'île.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="vehicules.html">Nos Véhicules</a></li>
+            <li><a href="index.html#features">Nos Engagements</a></li>
+            <li><a href="index.html#conciergerie">Conciergerie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="https://wa.me/262XXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="mailto:contact@kreolocation.re">contact@kreolocation.re</a></li>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">CGV Location</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 KreoLocation · La Réunion 974</span>
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+          Île de La Réunion · Océan Indien
+        </span>
+        <span>Fait avec ❤️ péi par un alternant entrepreneur 🇷🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" role="alert" aria-live="polite">
+    <div class="t-dot"></div>
+    <span id="toastMsg">Redirection vers WhatsApp…</span>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  JAVASCRIPT
+       ╚═══════════════════════════════════════════════════════════ -->
+  <script>
+    /* ════════════════════════════════════════════════════════
+       1. BURGER MENU MOBILE
+    ════════════════════════════════════════════════════════ */
+    const burgerBtn  = document.getElementById('burgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    /* ════════════════════════════════════════════════════════
+       2. TOAST NOTIFICATION
+    ════════════════════════════════════════════════════════ */
+    function showToast(message, success = true) {
+      const toast = document.getElementById('toast');
+      const dot   = toast.querySelector('.t-dot');
+      document.getElementById('toastMsg').textContent = message;
+      dot.style.background = success ? '#25D366' : '#e05a3a';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       3. WHATSAPP – Redirection depuis les cartes
+       ⚠️  Remplacez 262XXXXXXXXX par votre numéro réel.
+    ════════════════════════════════════════════════════════ */
+    const WHATSAPP_NUMBER = '262XXXXXXXXX'; // ← Votre numéro ici
+
+    /**
+     * Ouvre WhatsApp avec un message pré-rempli mentionnant le véhicule.
+     * @param {string} [vehicule] – nom du véhicule choisi
+     * @param {string} [prix]    – tarif affiché
+     */
+    function reserverVehicule(vehicule = null, prix = null) {
+      let msg = 'Bonjour KreoLocation 👋 Je souhaite faire une réservation.\n\n';
+      if (vehicule) msg += `🚗 Véhicule souhaité : ${vehicule}${prix ? ' (' + prix + ')' : ''}\n`;
+      msg += '\nMerci de me confirmer la disponibilité et les détails. À très vite ! 🙏';
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      showToast('Ouverture de WhatsApp en cours…');
+      setTimeout(() => window.open(url, '_blank', 'noopener,noreferrer'), 500);
+    }
+
+    /* Bouton "Réserver" dans la nav */
+    document.getElementById('navCtaWa').addEventListener('click', (e) => {
+      e.preventDefault();
+      reserverVehicule();
+    });
+
+    /* ════════════════════════════════════════════════════════
+       4. FILTRES PAR CATÉGORIE
+       Masque/affiche les cartes selon leur attribut data-category.
+    ════════════════════════════════════════════════════════ */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards      = document.querySelectorAll('#vehiclesGrid .vehicle-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // Mettre à jour les boutons actifs
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Afficher / masquer les cartes
+        cards.forEach(card => {
+          const cats = card.dataset.category || '';
+          if (filter === 'all' || cats.includes(filter)) {
+            card.style.display = '';
+            // Réinitialiser l'animation reveal si la carte était cachée
+            setTimeout(() => card.classList.add('visible'), 50);
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* ════════════════════════════════════════════════════════
+       5. INTERSECTION OBSERVER – Animations au scroll
+    ════════════════════════════════════════════════════════ */
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.10 }
+    );
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>

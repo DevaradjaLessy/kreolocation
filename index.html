@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="KreoLocation – Location de voiture à La Réunion. Nout ti véhicule Péi. Livraison aéroport Roland Garros, véhicules propres et assurés." />
+  <title>KreoLocation – Nout ti véhicule Péi 🇷🇪</title>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TYPOGRAPHIES
+       → Cormorant Garamond : serif élégant et organique pour les titres
+       → Nunito Sans       : sans-serif lisible et moderne pour le corps
+  ═══════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       TOKENS DESIGN – Centralisation des variables CSS
+       Modifier ici suffit pour changer l'identité visuelle entière.
+    ═══════════════════════════════════════════════════════════ */
+    :root {
+      /* Palette principale */
+      --white:         #FFFFFF;
+      --off-white:     #F8F6F2;       /* blanc chaud, sections alternées */
+      --surface:       #F2EFE9;       /* cartes légères */
+      --border:        #E5E0D8;       /* séparateurs discrets */
+
+      /* Verts – identité KreoLocation */
+      --green-deep:    #1B3A2D;       /* vert forêt profond (titres foncés, CTA) */
+      --green-mid:     #2D6A4F;       /* vert émeraude (boutons primaires) */
+      --green-sage:    #52796F;       /* vert sauge (accents, badges) */
+      --green-light:   #D8EAD3;       /* vert très clair (backgrounds hover) */
+      --green-pale:    #EEF5EC;       /* vert presque blanc (sections légères) */
+
+      /* Texte */
+      --text-primary:  #1C1C1A;       /* quasi-noir chaud */
+      --text-secondary:#5A5A56;       /* gris moyen */
+      --text-muted:    #9A9A94;       /* gris clair */
+
+      /* Typographies */
+      --font-display:  'Cormorant Garamond', Georgia, serif;
+      --font-body:     'Nunito Sans', system-ui, sans-serif;
+
+      /* Espacements */
+      --space-xs:  8px;
+      --space-sm:  16px;
+      --space-md:  32px;
+      --space-lg:  64px;
+      --space-xl:  96px;
+
+      /* Bordures & ombres */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 28px;
+      --radius-xl: 48px;
+      --shadow-sm: 0 2px 12px rgba(27,58,45,0.07);
+      --shadow-md: 0 8px 40px rgba(27,58,45,0.12);
+      --shadow-lg: 0 24px 80px rgba(27,58,45,0.18);
+
+      /* Transitions */
+      --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out:  cubic-bezier(0, 0, 0.2, 1);
+      --duration:  280ms;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESET & FONDATIONS
+    ═══════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* Utilitaire : conteneur centré */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPOSANT : BOUTONS
+    ═══════════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background var(--duration) var(--ease),
+                  transform  var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease),
+                  color      var(--duration) var(--ease);
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    /* Bouton primaire – vert plein */
+    .btn-primary {
+      background: var(--green-mid);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--green-deep);
+      box-shadow: 0 8px 28px rgba(45,106,79,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Bouton secondaire – contour vert */
+    .btn-outline {
+      background: transparent;
+      color: var(--green-mid);
+      padding: 13px 27px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--green-mid);
+    }
+    .btn-outline:hover {
+      background: var(--green-light);
+      transform: translateY(-2px);
+    }
+
+    /* Bouton ghost – blanc (sur fond sombre) */
+    .btn-ghost {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 13px 27px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Bouton WhatsApp */
+    .btn-wa {
+      background: #25D366;
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+    .btn-wa:hover {
+      background: #1EB356;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37,211,102,0.45);
+    }
+
+    /* Icône dans bouton */
+    .btn svg { flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPOSANT : EYEBROW (surtitre de section)
+    ═══════════════════════════════════════════════════════════ */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green-sage);
+      margin-bottom: 14px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPOSANT : TITRES DE SECTION
+    ═══════════════════════════════════════════════════════════ */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--green-deep);
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+    }
+    .section-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--green-sage);
+    }
+
+    .section-lead {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 540px;
+      line-height: 1.75;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       NAVIGATION PRINCIPALE
+       → Position fixed, glassmorphism léger, transition au scroll
+    ═══════════════════════════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      /* État initial : transparent (on est sur le hero) */
+      background: rgba(255,255,255,0);
+      border-bottom: 1px solid rgba(255,255,255,0);
+      transition: background var(--duration) var(--ease),
+                  border-color var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease);
+    }
+
+    /* Classe ajoutée par JS quand on scrolle */
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.96);
+      border-bottom-color: var(--border);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(24px, 4vw, 60px); /* ← espace minimum logo ↔ liens */
+      width: 100%;
+    }
+
+    /* ── Logo ── */
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .logo-name {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--white);   /* blanc sur hero, changé via JS au scroll */
+      letter-spacing: 0.01em;
+      transition: color var(--duration) var(--ease);
+    }
+    .logo-name .dot { color: var(--green-light); }
+    .logo-sub {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      transition: color var(--duration) var(--ease);
+    }
+
+    /* État scrollé → texte vert */
+    #navbar.scrolled .logo-name { color: var(--green-deep); }
+    #navbar.scrolled .logo-name .dot { color: var(--green-mid); }
+    #navbar.scrolled .logo-sub  { color: var(--text-muted); }
+
+    /* ── Liens nav ── */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.5vw, 36px);
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: rgba(255,255,255,0.85);
+      position: relative;
+      transition: color var(--duration) var(--ease);
+    }
+    /* Underline animé */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1.5px;
+      background: currentColor;
+      transition: width var(--duration) var(--ease);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* État scrollé */
+    #navbar.scrolled .nav-links a { color: var(--text-secondary); }
+    #navbar.scrolled .nav-links a:hover { color: var(--green-deep); }
+
+    /* Bouton CTA nav */
+    .nav-cta {
+      background: var(--white) !important;
+      color: var(--green-deep) !important;
+      padding: 10px 22px !important;
+      border-radius: var(--radius-sm) !important;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15) !important;
+      transition: background var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease),
+                  transform var(--duration) var(--ease) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--green-light) !important;
+      color: var(--green-deep) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
+    }
+    #navbar.scrolled .nav-cta {
+      background: var(--green-mid) !important;
+      color: var(--white) !important;
+      box-shadow: 0 4px 16px rgba(45,106,79,0.3) !important;
+    }
+    #navbar.scrolled .nav-cta:hover {
+      background: var(--green-deep) !important;
+    }
+
+    /* ── Burger mobile ── */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .burger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform var(--duration) var(--ease),
+                  opacity   var(--duration) var(--ease),
+                  background var(--duration) var(--ease);
+    }
+    #navbar.scrolled .burger span { background: var(--green-deep); }
+
+    /* ── Menu mobile déroulant ── */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      position: fixed;
+      top: 76px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      padding: 16px 0 24px;
+      z-index: 199;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 14px clamp(20px, 5vw, 60px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { background: var(--green-pale); color: var(--green-deep); }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO SECTION
+       → Image de fond, overlay dégradé organique, widget de résa
+    ═══════════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* widget ancré en bas */
+      overflow: hidden;
+    }
+
+    /* ── Image de fond ── */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      /* Image fournie par le client */
+      background-image: url('https://images.unsplash.com/photo-1585697386654-e025feaa654a?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aWxlJTIwZGUlMjBsYSUyMHIlQzMlQTl1bmlvbnxlbnwwfHwwfHx8MA%3D%3D');
+      background-size: cover;
+      background-position: center 40%;
+      background-repeat: no-repeat;
+      /* Zoom subtil à l'entrée */
+      animation: heroZoom 10s var(--ease-out) forwards;
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1.06); }
+      to   { transform: scale(1.00); }
+    }
+
+    /* ── Overlay : dégradé vert organique du bas + noircissement haut ── */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        /* Bande sombre en haut pour lisibilité du logo */
+        linear-gradient(180deg,
+          rgba(15, 35, 25, 0.55) 0%,
+          rgba(15, 35, 25, 0.10) 40%,
+          rgba(15, 35, 25, 0.00) 60%,
+          rgba(15, 35, 25, 0.70) 100%
+        );
+    }
+
+    /* ── Texture grain subtile ── */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── Contenu centré hero ── */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 clamp(20px, 5vw, 60px) 0;
+      max-width: 1160px;
+      margin: 0 auto;
+      width: 100%;
+      /* Centré verticalement (via flexbox parent) */
+      margin-top: auto;
+      padding-top: 120px; /* sous le nav */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* Étiquette pays */
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: slideUp 0.7s 0.3s var(--ease-out) forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1.5px;
+      background: rgba(255,255,255,0.5);
+    }
+
+    /* Titre principal */
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-weight: 700;
+      line-height: 0.92;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: slideUp 0.8s 0.45s var(--ease-out) forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      font-weight: 400;
+      /* Vert très doux pour ne pas jurer sur l'image */
+      color: #a8d5be;
+    }
+
+    /* Slogan Créole */
+    .hero-slogan {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.2vw, 1.4rem);
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.06em;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: slideUp 0.8s 0.6s var(--ease-out) forwards;
+    }
+
+    /* ── WIDGET DE RÉSERVATION ── */
+    .booking-bar {
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: clamp(20px, 3.5vw, 28px) clamp(20px, 3.5vw, 28px);
+      display: grid;
+      /*
+        Colonnes adaptatives :
+        - Mobile : 1 colonne
+        - Tablette : 2 colonnes
+        - Desktop : lieu + date début + date fin + bouton sur une ligne
+      */
+      grid-template-columns: 1.4fr 1fr 1fr auto;
+      gap: 0; /* séparateurs visuels par pseudo-éléments */
+      align-items: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 0;
+      opacity: 0;
+      animation: slideUp 0.9s 0.75s var(--ease-out) forwards;
+    }
+
+    /* Séparateur entre champs */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      padding: 0 clamp(14px, 2vw, 22px);
+      position: relative;
+    }
+    /* Ligne verticale séparatrice */
+    .field-group:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 50%;
+      background: var(--border);
+    }
+    /* Premier champ : pas de padding gauche */
+    .field-group:first-child { padding-left: 4px; }
+
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .field-label svg { color: var(--green-sage); }
+
+    .field-input {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 4px 0;
+      cursor: pointer;
+      transition: color var(--duration) var(--ease);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field-input::placeholder { color: var(--text-muted); font-weight: 400; }
+    .field-input:focus { color: var(--green-deep); }
+
+    /* Style natif des dates */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0.4;
+      cursor: pointer;
+      filter: invert(0.3) sepia(1) hue-rotate(80deg);
+    }
+    input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+      color: var(--text-primary);
+    }
+
+    /* Select */
+    select.field-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2352796F' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 2px center;
+      padding-right: 20px;
+    }
+    select.field-input option { color: var(--text-primary); background: var(--white); }
+
+    /* Conteneur du bouton chercher */
+    .field-group-btn {
+      padding: 0 0 0 clamp(14px, 2vw, 22px);
+      display: flex;
+      align-items: center;
+    }
+
+    /* Bouton rechercher du widget */
+    .btn-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green-mid);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      padding: 16px 28px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px rgba(45,106,79,0.35);
+      transition: background var(--duration) var(--ease),
+                  transform  var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease);
+    }
+    .btn-search:hover {
+      background: var(--green-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(45,106,79,0.5);
+    }
+    .btn-search:active { transform: scale(0.98); }
+    .btn-search svg { transition: transform var(--duration) var(--ease); }
+    .btn-search:hover svg { transform: translateX(3px); }
+
+    /* ── Indicateurs de confiance ── */
+    .hero-trust {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: clamp(14px, 3vw, 32px);
+      flex-wrap: wrap;
+      padding: 20px clamp(20px, 5vw, 60px);
+      max-width: 1160px;
+      margin: 0 auto;
+      width: 100%;
+      align-self: flex-end;
+      opacity: 0;
+      animation: fadeIn 0.8s 1.1s var(--ease-out) forwards;
+    }
+    .trust-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+    }
+    .trust-chip svg { color: #a8d5be; flex-shrink: 0; }
+
+    /* ── Indicateur de scroll ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+    .scroll-hint span {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .scroll-wheel {
+      width: 20px; height: 30px;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 10px;
+      position: relative;
+    }
+    .scroll-wheel::after {
+      content: '';
+      position: absolute;
+      width: 3px; height: 6px;
+      background: #a8d5be;
+      border-radius: 3px;
+      left: 50%; top: 5px;
+      transform: translateX(-50%);
+      animation: wheelDrop 2s ease-in-out infinite;
+    }
+    @keyframes wheelDrop {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      80%  { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       BARRE DE CONFIANCE (Trust Bar)
+    ═══════════════════════════════════════════════════════════ */
+    #trust-bar {
+      background: var(--green-pale);
+      border-bottom: 1px solid var(--green-light);
+      padding: 18px 0;
+    }
+    .trust-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: clamp(20px, 4vw, 56px);
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--green-deep);
+    }
+    .trust-item svg { color: var(--green-mid); flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTIONS GÉNÉRIQUES
+    ═══════════════════════════════════════════════════════════ */
+    .section {
+      padding: clamp(64px, 10vw, 112px) 0;
+    }
+    .section--alt { background: var(--off-white); }
+    .section--green {
+      background: var(--green-deep);
+      color: var(--white);
+    }
+
+    /* En-tête de section standard */
+    .section-header {
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+    .section-header--center { text-align: center; }
+    .section-header--center .section-lead {
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION : NOS VÉHICULES
+    ═══════════════════════════════════════════════════════════ */
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    /* Carte véhicule */
+    .vehicle-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease),
+                  border-color var(--duration) var(--ease);
+    }
+    .vehicle-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--green-light);
+    }
+
+    /* Thumbnail illustrée (pas de vraie image, SVG/emoji stylé) */
+    .card-thumb {
+      height: 200px;
+      background: linear-gradient(135deg, var(--green-pale) 0%, var(--green-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Cercle décoratif en arrière-plan */
+    .card-thumb::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(82,121,111,0.08);
+      top: -60px; right: -60px;
+    }
+    .card-thumb-emoji {
+      font-size: 5rem;
+      filter: drop-shadow(0 8px 24px rgba(27,58,45,0.15));
+      position: relative;
+      z-index: 1;
+      transition: transform var(--duration) var(--ease);
+    }
+    .vehicle-card:hover .card-thumb-emoji {
+      transform: scale(1.08) translateY(-4px);
+    }
+
+    /* Badge dispo */
+    .card-badge {
+      position: absolute;
+      top: 14px; left: 14px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+    .badge-available {
+      background: var(--green-mid);
+      color: var(--white);
+    }
+    .badge-soon {
+      background: var(--surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .card-body {
+      padding: 22px 24px;
+    }
+    .card-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 2px;
+    }
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      letter-spacing: 0.04em;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--green-sage);
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .card-price {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1;
+    }
+    .card-price small {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION : CONCIERGERIE – PROPRIÉTAIRES
+    ═══════════════════════════════════════════════════════════ */
+    .concierge-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 7vw, 80px);
+      align-items: center;
+    }
+
+    /* Liste d'étapes processus */
+    .process-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .process-step {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      align-items: flex-start;
+    }
+    .process-step:last-child { border-bottom: none; }
+    .step-icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      background: rgba(168,213,190,0.12);
+      border: 1px solid rgba(168,213,190,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a8d5be;
+    }
+    .step-body strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .step-body p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.65;
+    }
+
+    /* Carte "rejoindre" */
+    .join-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: clamp(32px, 5vw, 52px);
+      backdrop-filter: blur(8px);
+    }
+    .join-card .section-title { color: var(--white); }
+    .join-card .section-title em { color: #a8d5be; }
+    .join-card p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      margin: 16px 0 32px;
+    }
+    /* Stats dans la join card */
+    .join-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #a8d5be;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.06em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION : POURQUOI NOUS CHOISIR (Features)
+    ═══════════════════════════════════════════════════════════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px 26px;
+      transition: transform var(--duration) var(--ease),
+                  box-shadow var(--duration) var(--ease);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-mid);
+      margin-bottom: 18px;
+    }
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+    .feature-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════ */
+    #footer {
+      background: var(--green-deep);
+      color: rgba(255,255,255,0.7);
+      padding: clamp(40px, 6vw, 64px) 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 32px;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .footer-brand span { color: #a8d5be; }
+    .footer-tagline {
+      font-style: italic;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+    .footer-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.45);
+    }
+    .footer-col h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color var(--duration) var(--ease);
+    }
+    .footer-col a:hover { color: #a8d5be; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-bottom span { display: flex; align-items: center; gap: 6px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       TOAST NOTIFICATION
+    ═══════════════════════════════════════════════════════════ */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--green-deep);
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 500;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+      pointer-events: none;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+    #toast .t-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #25D366;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ANIMATIONS D'ENTRÉE (keyframes)
+    ═══════════════════════════════════════════════════════════ */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Animation au scroll (Intersection Observer) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    /* Délais en cascade pour les grilles */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVE – MOBILE FIRST
+    ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      /* Booking widget : 2 colonnes */
+      .booking-bar {
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        border-radius: var(--radius-sm);
+      }
+      .field-group { padding: 12px 14px; }
+      .field-group::after { display: none; }
+      .field-group:nth-child(1) { grid-column: 1 / -1; border-bottom: 1px solid var(--border); }
+      .field-group-btn {
+        grid-column: 1 / -1;
+        padding: 12px 14px 0;
+      }
+      .btn-search { width: 100%; justify-content: center; }
+
+      /* Conciergerie : 1 colonne */
+      .concierge-layout { grid-template-columns: 1fr; }
+
+      /* Footer : 1 colonne */
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 640px) {
+      /* Burger visible, liens nav cachés */
+      .nav-links { display: none; }
+      .burger     { display: flex; }
+
+      /* Booking widget : 1 colonne */
+      .booking-bar {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .field-group:nth-child(1) { grid-column: 1; }
+      .field-group { border-bottom: 1px solid var(--border); }
+      .field-group:last-of-type { border-bottom: none; }
+
+      /* Trust chips du hero : plus petits */
+      .hero-trust { gap: 12px; }
+      .trust-chip { font-size: 0.72rem; }
+
+      /* Footer bottom : centré */
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  NAVIGATION
+       ╚═══════════════════════════════════════════════════════════ -->
+  <header id="navbar" role="banner">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Navigation principale">
+
+        <!-- Logo -->
+        <a href="#" class="nav-logo" aria-label="KreoLocation – Retour à l'accueil">
+          <span class="logo-name">Kreo<span class="dot">Location</span></span>
+          <span class="logo-sub">La Réunion · 974</span>
+        </a>
+
+        <!-- Liens desktop -->
+        <ul class="nav-links" role="list">
+          <li><a href="vehicules.html">Nos Véhicules</a></li>
+          <li><a href="#features">Nos engagements</a></li>
+          <li><a href="#conciergerie">Conciergerie</a></li>
+          <li>
+            <a href="#hero" class="nav-cta">
+              <!-- Icône WhatsApp miniature -->
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;display:inline;vertical-align:middle;margin-right:5px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Réserver
+            </a>
+          </li>
+        </ul>
+
+        <!-- Burger mobile -->
+        <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- Menu mobile plein-écran -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Menu mobile" role="navigation">
+    <a href="vehicules.html"     onclick="closeMenu()">Nos Véhicules</a>
+    <a href="#features"      onclick="closeMenu()">Nos engagements</a>
+    <a href="#conciergerie"  onclick="closeMenu()">Conciergerie</a>
+    <a href="#hero"          onclick="closeMenu()" style="color:var(--green-mid);font-weight:700">Réserver via WhatsApp</a>
+  </nav>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  HERO SECTION
+       ║  Structure : image de fond → overlay → texte → widget → trusts
+       ╚═══════════════════════════════════════════════════════════ -->
+  <main>
+    <section id="hero" aria-label="Bienvenue sur KreoLocation">
+
+      <!-- Fond -->
+      <div class="hero-bg"     aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-grain"  aria-hidden="true"></div>
+
+      <!-- Texte + Widget -->
+      <div class="hero-content">
+
+        <p class="hero-eyebrow">
+          <span></span>Location de véhicules · La Réunion
+        </p>
+
+        <h1 class="hero-title">
+          L'île s'explore<br />à votre <em>rythme</em>
+        </h1>
+
+        <p class="hero-slogan">« Nout ti véhicule Péi »</p>
+
+        <!-- ── WIDGET DE RÉSERVATION ─────────────────────────── -->
+        <!--
+          TECHNIQUE : le widget est une grille CSS adaptative.
+          Sur desktop : 4 colonnes (lieu / début / fin / bouton).
+          Sur mobile  : empilement vertical, bouton pleine largeur.
+          La redirection WhatsApp est gérée par JS en bas de page.
+        -->
+        <div class="booking-bar" role="search" aria-label="Formulaire de recherche de véhicule">
+
+          <!-- Champ 1 : Lieu de prise en charge -->
+          <div class="field-group">
+            <label class="field-label" for="w-lieu">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Lieu de prise en charge
+            </label>
+            <select id="w-lieu" class="field-input" aria-label="Choisir un lieu">
+              <option value="" disabled selected>Où souhaitez-vous partir ?</option>
+              <option value="Aéroport Roland Garros (Gillot)">✈️  Aéroport Roland Garros</option>
+              <option value="Saint-Denis centre">📍  Saint-Denis centre</option>
+              <option value="Saint-Paul">📍  Saint-Paul</option>
+              <option value="Saint-Gilles-les-Bains">🏖️  Saint-Gilles-les-Bains</option>
+              <option value="Saint-Pierre">📍  Saint-Pierre</option>
+              <option value="Saint-André">📍  Saint-André</option>
+              <option value="Saint-Leu">📍  Saint-Leu</option>
+              <option value="Cilaos">🏔️  Cilaos</option>
+              <option value="Salazie">🌿  Salazie</option>
+              <option value="Autre (à préciser)">💬  Autre lieu</option>
+            </select>
+          </div>
+
+          <!-- Champ 2 : Date de début -->
+          <div class="field-group">
+            <label class="field-label" for="w-debut">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Date de début
+            </label>
+            <input
+              type="date"
+              id="w-debut"
+              class="field-input"
+              aria-label="Date de début de location"
+            />
+          </div>
+
+          <!-- Champ 3 : Date de fin -->
+          <div class="field-group">
+            <label class="field-label" for="w-fin">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Date de fin
+            </label>
+            <input
+              type="date"
+              id="w-fin"
+              class="field-input"
+              aria-label="Date de fin de location"
+            />
+          </div>
+
+          <!-- Bouton → WhatsApp -->
+          <div class="field-group-btn">
+            <button class="btn-search" id="btnSearch" aria-label="Rechercher et contacter via WhatsApp">
+              Rechercher
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+        </div><!-- /.booking-bar -->
+
+      </div><!-- /.hero-content -->
+
+      <!-- Indicateurs de confiance flottants -->
+      <div class="hero-trust" aria-label="Nos garanties">
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Véhicules assurés
+        </span>
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Réponse en moins de 15 min
+        </span>
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Accueil personnalisé
+        </span>
+        <span class="trust-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
+          État des lieux photo & signé
+        </span>
+      </div>
+
+      <!-- Invite au scroll -->
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="scroll-wheel"></div>
+        <span>Découvrir</span>
+      </div>
+
+    </section>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  TRUST BAR
+         ╚═══════════════════════════════════════════════════════════ -->
+    <div id="trust-bar" role="complementary" aria-label="Nos engagements">
+      <div class="container">
+        <div class="trust-bar-inner">
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Nettoyage & désinfection systématiques
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Contrat & état des lieux sécurisé
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.6 18a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 3.18 2 2 0 0 1 4.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 14 14.91l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Livraison à domicile & aéroport Gillot
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            Disponible 7j/7
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  NOS VÉHICULES
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section id="vehicules" class="section" aria-labelledby="vehicles-title">
+      <div class="container">
+
+        <header class="section-header reveal">
+          <span class="eyebrow">Nos Véhicules</span>
+          <h2 class="section-title" id="vehicles-title">
+            Pour chaque aventure <em>péi</em>
+          </h2>
+          <p class="section-lead">
+            Que vous débarquiez à Gillot et partiez découvrir les cirques en famille,
+            ou que vous longez la côte Ouest en mode solo — trouvez le véhicule qui vous ressemble.
+          </p>
+        </header>
+
+        <div class="vehicles-grid">
+
+          <!-- Carte 1 : Clio 5 -->
+          <article class="vehicle-card reveal reveal-delay-1">
+            <div class="card-thumb">
+              <span class="card-badge badge-available">Disponible</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚗</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-name">Renault Clio 5</h3>
+              <p class="card-sub">Citadine · 2023 · Climatisée</p>
+              <div class="card-tags" aria-label="Caractéristiques">
+                <span class="tag">👥 4 passagers</span>
+                <span class="tag">❄️ Clim auto</span>
+                <span class="tag">📻 Bluetooth</span>
+                <span class="tag">🔋 Essence</span>
+              </div>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">45€ <small>/ jour</small></p>
+                  <small style="font-size:0.72rem;color:var(--text-muted)">Kilométrage illimité</small>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  onclick="reserverVehicule('Renault Clio 5', '45€/jour')"
+                  aria-label="Réserver la Renault Clio 5">
+                  Réserver
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 2 : SUV Famille -->
+          <article class="vehicle-card reveal reveal-delay-2">
+            <div class="card-thumb">
+              <span class="card-badge badge-soon">Bientôt</span>
+              <span class="card-thumb-emoji" aria-hidden="true">🚙</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-name">SUV Familial</h3>
+              <p class="card-sub">SUV · 7 places · Idéal cirques</p>
+              <div class="card-tags">
+                <span class="tag">👨‍👩‍👧‍👦 7 passagers</span>
+                <span class="tag">🏔️ Tout-terrain</span>
+                <span class="tag">🧳 Grand coffre</span>
+                <span class="tag">🎵 Apple CarPlay</span>
+              </div>
+              <div class="card-footer">
+                <div>
+                  <p class="card-price">75€ <small>/ jour</small></p>
+                  <small style="font-size:0.72rem;color:var(--text-muted)">Parfait pour Mafate & Cilaos</small>
+                </div>
+                <button
+                  class="btn btn-outline"
+                  onclick="window.location.href='vehicules.html'"
+                  aria-label="Voir les détails et tarifs du SUV Familial">
+                  Détails &amp; Tarifs
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Carte 3 : Notre Flotte – CTA vers vehicules.html -->
+          <article class="vehicle-card reveal reveal-delay-3" style="display:flex;flex-direction:column;">
+            <div class="card-thumb" style="background:linear-gradient(135deg,var(--green-deep) 0%,var(--green-mid) 100%);">
+              <span class="card-thumb-emoji" aria-hidden="true" style="font-size:3.5rem">🚘</span>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;flex:1;justify-content:space-between;">
+              <div>
+                <h3 class="card-name" style="color:var(--green-deep)">Notre Flotte</h3>
+                <p class="card-sub">Citadines · SUV · Utilitaires · et plus</p>
+                <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.65;margin-bottom:18px">
+                  Découvrez l'ensemble de nos véhicules disponibles : tarifs détaillés,
+                  équipements, disponibilités en temps réel et options de livraison.
+                </p>
+              </div>
+              <!-- CTA large vers le catalogue complet -->
+              <a
+                href="vehicules.html"
+                class="btn btn-primary"
+                style="width:100%;justify-content:center;padding:15px 20px;font-size:0.92rem;"
+                aria-label="Voir tous les véhicules disponibles">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Cliquez ici pour voir tous nos véhicules
+              </a>
+            </div>
+          </article>
+
+        </div><!-- /.vehicles-grid -->
+      </div>
+    </section>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  NOS ENGAGEMENTS (Features)
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section id="features" class="section section--alt" aria-labelledby="features-title">
+      <div class="container">
+
+        <header class="section-header section-header--center reveal">
+          <span class="eyebrow">Nos Engagements</span>
+          <h2 class="section-title" id="features-title">
+            Pourquoi choisir <em>KreoLocation</em>&nbsp;?
+          </h2>
+          <p class="section-lead">
+            Une agence locale qui vous connaît, un service premium à la Réunionnaise.
+            Nous ne faisons pas que louer des voitures — nous vous accompagnons.
+          </p>
+        </header>
+
+        <div class="features-grid">
+
+          <div class="feature-card reveal reveal-delay-1">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="feature-title">Accueil Aéroport</h3>
+            <p class="feature-desc">Vous atterrissez à Roland Garros ? On est là, signe en main, véhicule propre et plein. Zéro stress dès votre arrivée.</p>
+          </div>
+
+          <div class="feature-card reveal reveal-delay-2">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="feature-title">100% Assuré & Contrôlé</h3>
+            <p class="feature-desc">Chaque véhicule est assuré, contrôlé et nettoyé avant chaque location. État des lieux photo signé à la remise des clés.</p>
+          </div>
+
+          <div class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.6 18a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 3.18 2 2 0 0 1 4.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 14 14.91l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <h3 class="feature-title">WhatsApp en Temps Réel</h3>
+            <p class="feature-desc">Un message et vous avez une réponse en moins de 15 minutes. Pas de formulaire, pas d'attente. On est local, on réagit vite.</p>
+          </div>
+
+          <div class="feature-card reveal reveal-delay-1">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="feature-title">Disponible 7j/7</h3>
+            <p class="feature-desc">Week-ends, jours fériés, saison cyclonique — KreoLocation est disponible toute l'année pour que vous gardiez votre liberté.</p>
+          </div>
+
+          <div class="feature-card reveal reveal-delay-2">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3 class="feature-title">100% Local & Péi</h3>
+            <p class="feature-desc">Vous faites vivre un entrepreneur réunionnais, qui connaît l'île comme sa poche et vous conseille les meilleurs spots off-road.</p>
+          </div>
+
+          <div class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="feature-title">Prix Transparents</h3>
+            <p class="feature-desc">Pas de frais cachés, pas de mauvaise surprise. Le prix affiché est le prix payé, kilomètres illimités inclus.</p>
+          </div>
+
+        </div><!-- /.features-grid -->
+      </div>
+    </section>
+
+    <!-- ╔═══════════════════════════════════════════════════════════
+         ║  CONCIERGERIE (Section propriétaires)
+         ╚═══════════════════════════════════════════════════════════ -->
+    <section id="conciergerie" class="section section--green" aria-labelledby="concierge-title">
+      <div class="container">
+        <div class="concierge-layout">
+
+          <!-- Colonne gauche : processus -->
+          <div class="reveal">
+            <span class="eyebrow" style="color:rgba(168,213,190,0.8)">Conciergerie</span>
+            <h2 class="section-title" id="concierge-title">
+              Votre véhicule <em>génère</em><br />pendant que vous dormez
+            </h2>
+            <p class="section-lead" style="color:rgba(255,255,255,0.55);margin-bottom:40px">
+              Vous êtes propriétaire d'un véhicule inutilisé à La Réunion ?
+              Confiez-le à KreoLocation. On s'occupe de tout, vous encaissez.
+            </p>
+
+            <ul class="process-list" aria-label="Étapes de la conciergerie">
+              <li class="process-step">
+                <div class="step-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="step-body">
+                  <strong>1. Signature d'un mandat mandataire</strong>
+                  <p>Cadre légal clair. Tarification, conditions et durée définis ensemble dès la première rencontre.</p>
+                </div>
+              </li>
+              <li class="process-step">
+                <div class="step-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div class="step-body">
+                  <strong>2. Prise en charge & mise en valeur</strong>
+                  <p>Nettoyage complet, photos professionnelles, publication sur toutes les plateformes de location.</p>
+                </div>
+              </li>
+              <li class="process-step">
+                <div class="step-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="step-body">
+                  <strong>3. Gestion complète de chaque réservation</strong>
+                  <p>Accueil locataire, remise des clés, états des lieux entrant/sortant, SAV 24h/24. Vous ne faites rien.</p>
+                </div>
+              </li>
+              <li class="process-step">
+                <div class="step-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="step-body">
+                  <strong>4. Virement mensuel + bilan détaillé</strong>
+                  <p>Votre part est virée chaque mois. Rapport complet : jours loués, revenus bruts, frais de gestion. Transparence totale.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Colonne droite : card de contact -->
+          <div class="join-card reveal reveal-delay-2">
+            <h3 class="section-title">
+              Propriétaire<br /><em>Péi ?</em>
+            </h3>
+            <p>
+              Votre voiture dort dans le garage 10 mois sur 12 ?
+              Elle peut vous rapporter plusieurs centaines d'euros par mois,
+              sans effort, en toute sécurité. Discutons-en sans engagement.
+            </p>
+
+            <!-- Mini-stats rassurantes -->
+            <div class="join-stats" aria-label="Indicateurs clés">
+              <div class="stat-box">
+                <div class="stat-num">0€</div>
+                <div class="stat-label">Frais d'entrée</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">7j/7</div>
+                <div class="stat-label">Gestion assurée</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Transparent</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num">15'</div>
+                <div class="stat-label">Premier contact</div>
+              </div>
+            </div>
+
+            <!--
+              Bouton WhatsApp propriétaire.
+              Message pré-rempli différent du widget client (cible = propriétaire).
+            -->
+            <a
+              href="https://wa.me/262XXXXXXXXX?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20suis%20propri%C3%A9taire%20d%27un%20v%C3%A9hicule%20%C3%A0%20La%20R%C3%A9union%20et%20je%20souhaite%20en%20savoir%20plus%20sur%20votre%20service%20de%20conciergerie%20mandataire.%20Pouvez-vous%20me%20contacter%20%3F"
+              class="btn btn-wa"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contacter KreoLocation sur WhatsApp pour la conciergerie"
+              style="width:100%;justify-content:center;font-size:1rem;padding:16px">
+              <!-- SVG WhatsApp -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Parler à un conseiller
+            </a>
+          </div>
+
+        </div><!-- /.concierge-layout -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  FOOTER
+       ╚═══════════════════════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+
+        <!-- Brand -->
+        <div>
+          <p class="footer-brand">Kreo<span>Location</span></p>
+          <p class="footer-tagline">« Nout ti véhicule Péi »</p>
+          <p class="footer-desc">
+            Agence de location de véhicules locale, premium et flexible.
+            Basée à La Réunion 🇷🇪, au service des habitants et des voyageurs
+            depuis l'aéroport Roland Garros jusqu'aux sommets de l'île.
+          </p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="vehicules.html">Nos Véhicules</a></li>
+            <li><a href="#features">Nos Engagements</a></li>
+            <li><a href="#conciergerie">Conciergerie</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="https://wa.me/262XXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="mailto:contact@kreolocation.re">contact@kreolocation.re</a></li>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">CGV Location</a></li>
+          </ul>
+        </div>
+
+      </div><!-- /.footer-top -->
+
+      <div class="footer-bottom">
+        <span>© 2025 KreoLocation · La Réunion 974</span>
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+          Île de La Réunion · Océan Indien
+        </span>
+        <span>Fait avec ❤️ péi par un alternant entrepreneur 🇷🇪</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ── TOAST ── -->
+  <div id="toast" role="alert" aria-live="polite">
+    <div class="t-dot"></div>
+    <span id="toastMsg">Redirection vers WhatsApp…</span>
+  </div>
+
+  <!-- ╔═══════════════════════════════════════════════════════════
+       ║  JAVASCRIPT
+       ║  → Navbar scroll
+       ║  → Burger mobile
+       ║  → Widget WhatsApp
+       ║  → Révélations au scroll (Intersection Observer)
+       ╚═══════════════════════════════════════════════════════════ -->
+  <script>
+    /* ════════════════════════════════════════════════════════
+       1. NAVBAR – Effet de scroll
+       Ajoute la classe .scrolled quand on descend > 60px,
+       ce qui active le fond blanc via CSS.
+    ════════════════════════════════════════════════════════ */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ════════════════════════════════════════════════════════
+       2. BURGER MENU MOBILE
+    ════════════════════════════════════════════════════════ */
+    const burgerBtn   = document.getElementById('burgerBtn');
+    const mobileMenu  = document.getElementById('mobileMenu');
+
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    /* ════════════════════════════════════════════════════════
+       3. WIDGET – Validation des dates
+       → La date de début ne peut pas être dans le passé.
+       → La date de fin ne peut pas précéder la date de début.
+    ════════════════════════════════════════════════════════ */
+    const todayISO  = new Date().toISOString().split('T')[0];
+    const inputDebut = document.getElementById('w-debut');
+    const inputFin   = document.getElementById('w-fin');
+
+    inputDebut.min = todayISO;
+    inputFin.min   = todayISO;
+
+    inputDebut.addEventListener('change', () => {
+      inputFin.min = inputDebut.value || todayISO;
+      if (inputFin.value && inputFin.value < inputDebut.value) {
+        inputFin.value = inputDebut.value;
+      }
+    });
+
+    /* ════════════════════════════════════════════════════════
+       4. WIDGET – Redirection WhatsApp avec message pré-rempli
+       Construction dynamique du message à partir des champs.
+       ⚠️  Remplacez XXXXXXXXX par votre numéro réel (sans le +).
+    ════════════════════════════════════════════════════════ */
+    const WHATSAPP_NUMBER = '262XXXXXXXXX'; // ← Votre numéro ici
+
+    /**
+     * Convertit une date ISO (YYYY-MM-DD) en format lisible (DD/MM/YYYY).
+     * @param {string} iso – date au format ISO
+     * @returns {string} date formatée ou chaîne vide
+     */
+    function formatDate(iso) {
+      if (!iso) return '';
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    /**
+     * Affiche un toast en bas de l'écran.
+     * @param {string} message – texte à afficher
+     * @param {boolean} success – couleur du point (vert = succès)
+     */
+    function showToast(message, success = true) {
+      const toast = document.getElementById('toast');
+      const dot   = toast.querySelector('.t-dot');
+      document.getElementById('toastMsg').textContent = message;
+      dot.style.background = success ? '#25D366' : '#e05a3a';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    /* Bouton "Rechercher" principal */
+    document.getElementById('btnSearch').addEventListener('click', () => {
+      buildAndSendWA();
+    });
+
+    /**
+     * Construit le message WhatsApp et ouvre l'app.
+     * Peut être appelée depuis le widget principal ou les cartes véhicule.
+     * @param {string} [vehicule] – nom du véhicule si cliqué depuis une carte
+     * @param {string} [prix]    – prix affiché sur la carte
+     */
+    function buildAndSendWA(vehicule = null, prix = null) {
+      const lieu  = document.getElementById('w-lieu').value;
+      const debut = inputDebut.value;
+      const fin   = inputFin.value;
+
+      // Validation minimale
+      if (!lieu && !debut && !fin && !vehicule) {
+        showToast('⚠️ Renseignez au moins un critère pour continuer.', false);
+        return;
+      }
+
+      // Construction du message
+      let msg = 'Bonjour KreoLocation 👋 Je souhaite faire une réservation.\n\n';
+      if (vehicule) msg += `🚗 Véhicule souhaité : ${vehicule}${prix ? ' (' + prix + ')' : ''}\n`;
+      if (lieu)     msg += `📍 Lieu de prise en charge : ${lieu}\n`;
+      if (debut)    msg += `🗓️ Date de début : ${formatDate(debut)}\n`;
+      if (fin)      msg += `🗓️ Date de retour : ${formatDate(fin)}\n`;
+      msg += '\nMerci de confirmer la disponibilité. À très vite ! 🙏';
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      showToast('Ouverture de WhatsApp en cours…');
+      setTimeout(() => window.open(url, '_blank', 'noopener,noreferrer'), 500);
+    }
+
+    /**
+     * Appelée par les boutons "Réserver" des cartes véhicule.
+     * Pré-remplit le véhicule dans le message WhatsApp.
+     */
+    function reserverVehicule(nom, prix) {
+      buildAndSendWA(nom, prix);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       5. INTERSECTION OBSERVER – Animations au scroll
+       Tous les éléments .reveal entrent progressivement
+       dans le viewport avec un fadeUp.
+    ════════════════════════════════════════════════════════ */
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target); // 1 seule fois
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>
