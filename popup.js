@@ -231,13 +231,13 @@
       <div id="kl-popup-header">
         <button id="kl-popup-x" aria-label="Fermer">✕</button>
         <div id="kl-popup-badge">
-          🇷🇪 &nbsp;Disponible dès maintenant
+          🇷🇪 &nbsp;KreoLocation — La Réunion
         </div>
         <h2 id="kl-popup-title">
-          Les véhicules arrivent<br/>la <em>conciergerie</em>, c'est maintenant
+          Notre flotte arrive<br/>bientôt — mais on est <em>déjà là !</em>
         </h2>
         <p id="kl-popup-subtitle">
-          KreoLocation — Nout ti véhicule Péi
+          En attendant nos véhicules, un service est déjà disponible pour vous.
         </p>
       </div>
 
@@ -246,20 +246,11 @@
         <ul id="kl-popup-points">
           <li>
             <div class="kl-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <div>
-              <strong>Nos véhicules arrivent bientôt</strong>
-              Notre flotte est en cours de constitution. Restez connectés !
-            </div>
-          </li>
-          <li>
-            <div class="kl-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div>
-              <strong>Vous avez un véhicule inutilisé ?</strong>
-              Confiez-le nous ! On gère tout — nettoyage, réservations, accueil client — vous encaissez.
+              <strong>Vous avez une voiture qui dort ?</strong>
+              On la loue pour vous sur les plateformes. Vous donnez juste les clés — on s'occupe de tout.
             </div>
           </li>
           <li>
@@ -267,8 +258,17 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <div>
-              <strong>0€ de frais d'entrée</strong>
-              Sans engagement, sans investissement. Juste un partenariat gagnant-gagnant.
+              <strong>Vous touchez 75% des revenus</strong>
+              On prend seulement 25% de commission. Si on ne loue pas, vous ne payez rien. Zéro risque.
+            </div>
+          </li>
+          <li>
+            <div class="kl-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <strong>Réponse en moins de 15 minutes</strong>
+              Contactez-nous sur WhatsApp — on est disponible 7j/7 🇷🇪
             </div>
           </li>
         </ul>
@@ -277,13 +277,13 @@
         <div id="kl-popup-actions">
           <a
             id="kl-popup-cta"
-            href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20la%20conciergerie%20mandataire.%20Pouvez-vous%20m%27en%20dire%20plus%20%3F"
+            href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20J%27ai%20une%20voiture%20inutilis%C3%A9e%20et%20je%20veux%20en%20savoir%20plus%20sur%20votre%20service%20de%20gestion."
             target="_blank"
             rel="noopener noreferrer">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-            Je suis propriétaire, en savoir plus
+            Je veux confier mon véhicule
           </a>
-          <button id="kl-popup-close">Continuer le site</button>
+          <button id="kl-popup-close">Voir le site</button>
         </div>
       </div>
 
