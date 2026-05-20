@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="KreoLocation – Conciergerie mandataire à La Réunion. Confiez votre véhicule, on gère tout. Vous touchez 75% des revenus sans rien faire." />
+  <title>Conciergerie – KreoLocation 🇷🇪</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --white:         #FFFFFF;
+      --off-white:     #F8F6F2;
+      --surface:       #F2EFE9;
+      --border:        #E5E0D8;
+      --green-deep:    #1B3A2D;
+      --green-mid:     #2D6A4F;
+      --green-sage:    #52796F;
+      --green-light:   #D8EAD3;
+      --green-pale:    #EEF5EC;
+      --text-primary:  #1C1C1A;
+      --text-secondary:#5A5A56;
+      --text-muted:    #9A9A94;
+      --font-display:  'Cormorant Garamond', Georgia, serif;
+      --font-body:     'Nunito Sans', system-ui, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 2px 12px rgba(27,58,45,0.07);
+      --shadow-md: 0 8px 40px rgba(27,58,45,0.12);
+      --shadow-lg: 0 24px 80px rgba(27,58,45,0.18);
+      --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out:  cubic-bezier(0, 0, 0.2, 1);
+      --duration:  280ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 60px);
+    }
+
+    /* ── BOUTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background var(--duration) var(--ease), transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--green-mid);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.3);
+    }
+    .btn-primary:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--green-mid);
+      padding: 13px 27px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--green-mid);
+    }
+    .btn-outline:hover { background: var(--green-light); transform: translateY(-2px); }
+    .btn-wa {
+      background: #25D366;
+      color: var(--white);
+      padding: 16px 32px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+      font-size: 1rem;
+    }
+    .btn-wa:hover { background: #1EB356; transform: translateY(-2px); }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.97);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(24px, 4vw, 60px);
+      width: 100%;
+    }
+    .nav-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+    .logo-name { font-family: var(--font-display); font-size: 1.55rem; font-weight: 700; color: var(--green-deep); }
+    .logo-name .dot { color: var(--green-mid); }
+    .logo-sub { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); }
+    .nav-links { display: flex; align-items: center; gap: clamp(16px, 2.5vw, 36px); list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500; text-decoration: none; color: var(--text-secondary);
+      position: relative; transition: color var(--duration) var(--ease);
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--green-mid); transition: width var(--duration) var(--ease); }
+    .nav-links a:hover { color: var(--green-deep); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--green-deep); font-weight: 700; }
+    .nav-cta {
+      background: var(--green-mid) !important; color: var(--white) !important;
+      padding: 10px 22px !important; border-radius: var(--radius-sm) !important;
+      font-weight: 700 !important; font-size: 0.82rem !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--green-deep) !important; transform: translateY(-1px); }
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .burger span { display: block; width: 22px; height: 2px; background: var(--green-deep); border-radius: 2px; transition: transform var(--duration) var(--ease), opacity var(--duration) var(--ease); }
+    .mobile-menu { display: none; flex-direction: column; position: fixed; top: 76px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-md); padding: 16px 0 24px; z-index: 199; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1rem; font-weight: 500; color: var(--text-primary); text-decoration: none; padding: 14px clamp(20px, 5vw, 60px); border-bottom: 1px solid var(--border); }
+    .mobile-menu a:hover { background: var(--green-pale); color: var(--green-deep); }
+
+    /* ── HERO CONCIERGERIE ── */
+    .page-hero {
+      background: var(--green-deep);
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(45,106,79,0.35);
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(168,213,190,0.07);
+      pointer-events: none;
+    }
+    .page-hero-inner { position: relative; z-index: 1; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-bottom: 24px; }
+    .breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color var(--duration) var(--ease); }
+    .breadcrumb a:hover { color: rgba(255,255,255,0.9); }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(168,213,190,0.15); border: 1px solid rgba(168,213,190,0.3);
+      border-radius: 40px; padding: 6px 20px; margin-bottom: 24px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #a8d5be;
+    }
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700; color: var(--white); line-height: 1.05; margin-bottom: 20px;
+    }
+    .page-hero-title em { font-style: italic; font-weight: 400; color: #a8d5be; }
+    .page-hero-sub { font-size: 1.1rem; font-weight: 300; color: rgba(255,255,255,0.65); max-width: 560px; line-height: 1.75; margin-bottom: 40px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* Stats hero */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,0.04);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .hero-stat-num { font-family: var(--font-display); font-size: 2.8rem; font-weight: 700; color: #a8d5be; line-height: 1; }
+    .hero-stat-label { font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.45); margin-top: 6px; letter-spacing: 0.05em; }
+
+    /* ── SECTIONS ── */
+    .section { padding: clamp(64px, 10vw, 112px) 0; }
+    .section--alt { background: var(--off-white); }
+    .section--green { background: var(--green-deep); }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--green-sage); margin-bottom: 14px;
+    }
+    .eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: currentColor; border-radius: 2px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2.2rem, 4.5vw, 3.6rem); font-weight: 600; line-height: 1.1; color: var(--green-deep); margin-bottom: 18px; }
+    .section-title em { font-style: italic; font-weight: 400; color: var(--green-sage); }
+    .section-lead { font-size: 1.05rem; font-weight: 300; color: var(--text-secondary); max-width: 540px; line-height: 1.75; }
+    .section-header { margin-bottom: clamp(40px, 6vw, 64px); }
+    .section-header--center { text-align: center; }
+    .section-header--center .section-lead { margin: 0 auto; }
+
+    /* ── COMMENT CA MARCHE ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .step-card {
+      background: var(--white);
+      padding: 40px 32px;
+      position: relative;
+    }
+    .step-number {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--green-pale);
+      line-height: 1;
+      position: absolute;
+      top: 24px; right: 28px;
+    }
+    .step-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-mid);
+      margin-bottom: 20px;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 600; color: var(--green-deep);
+      margin-bottom: 10px;
+    }
+    .step-desc { font-size: 0.88rem; font-weight: 300; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── CALCUL REVENUS ── */
+    .calc-section {
+      background: var(--green-deep);
+      border-radius: var(--radius-lg);
+      padding: clamp(40px, 6vw, 64px);
+      position: relative;
+      overflow: hidden;
+    }
+    .calc-section::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(45,106,79,0.4);
+      pointer-events: none;
+    }
+    .calc-inner { position: relative; z-index: 1; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .calc-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--white); margin-bottom: 16px; }
+    .calc-title em { font-style: italic; font-weight: 400; color: #a8d5be; }
+    .calc-sub { font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 28px; }
+
+    /* Simulateur interactif */
+    .simulator {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: 32px;
+    }
+    .sim-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(168,213,190,0.7); margin-bottom: 12px; }
+    .sim-slider {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(168,213,190,0.2);
+      outline: none;
+      margin-bottom: 8px;
+    }
+    .sim-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #a8d5be;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .sim-value { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 24px; }
+    .sim-result {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px;
+    }
+    .sim-box {
+      background: rgba(168,213,190,0.08);
+      border: 1px solid rgba(168,213,190,0.15);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+    }
+    .sim-box--highlight { background: rgba(168,213,190,0.15); border-color: rgba(168,213,190,0.3); }
+    .sim-box-num { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: #a8d5be; line-height: 1; }
+    .sim-box--highlight .sim-box-num { color: var(--white); }
+    .sim-box-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px; text-align: left;
+      font-family: var(--font-body); font-size: 1rem; font-weight: 600;
+      color: var(--green-deep); transition: background var(--duration) var(--ease);
+    }
+    .faq-question:hover { background: var(--green-pale); }
+    .faq-question.open { background: var(--green-pale); }
+    .faq-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--green-pale); border: 1px solid var(--green-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--green-mid); transition: transform var(--duration) var(--ease), background var(--duration) var(--ease); }
+    .faq-question.open .faq-icon { transform: rotate(45deg); background: var(--green-mid); color: var(--white); border-color: var(--green-mid); }
+    .faq-answer { display: none; padding: 0 28px 24px; font-size: 0.9rem; font-weight: 300; color: var(--text-secondary); line-height: 1.75; }
+    .faq-answer.open { display: block; }
+
+    /* ── AVANTAGES ── */
+    .avantages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+    .avantage-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px;
+      transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+    }
+    .avantage-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .avantage-icon { width: 48px; height: 48px; border-radius: 14px; background: var(--green-pale); border: 1px solid var(--green-light); display: flex; align-items: center; justify-content: center; color: var(--green-mid); margin-bottom: 16px; }
+    .avantage-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--green-deep); margin-bottom: 8px; }
+    .avantage-desc { font-size: 0.875rem; font-weight: 300; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── CTA FINAL ── */
+    .cta-final {
+      background: var(--green-deep);
+      border-radius: var(--radius-lg);
+      padding: clamp(48px, 7vw, 80px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-final::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; border-radius: 50%; background: rgba(45,106,79,0.3); pointer-events: none; }
+    .cta-final-inner { position: relative; z-index: 1; }
+    .cta-final-title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
+    .cta-final-title em { font-style: italic; font-weight: 400; color: #a8d5be; }
+    .cta-final-sub { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.6); max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    #footer { background: var(--green-deep); color: rgba(255,255,255,0.7); padding: clamp(40px, 6vw, 64px) 0 32px; }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
+    .footer-brand { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .footer-brand span { color: #a8d5be; }
+    .footer-tagline { font-style: italic; font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+    .footer-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.45); }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 0.875rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color var(--duration) var(--ease); }
+    .footer-col a:hover { color: #a8d5be; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+
+    /* ── TOAST ── */
+    #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green-deep); color: var(--white); padding: 12px 22px; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 10px; z-index: 500; box-shadow: var(--shadow-lg); transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1); pointer-events: none; }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast .t-dot { width: 8px; height: 8px; border-radius: 50%; background: #25D366; flex-shrink: 0; }
+
+    /* ── BOUTON WA FLOTTANT ── */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 300;
+      width: 58px; height: 58px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5); cursor: pointer; border: none;
+      animation: waPulse 2s ease-in-out infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,211,102,0.6); }
+    @keyframes waPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+      70%  { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+    }
+
+    /* ── ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { justify-content: center; text-align: center; }
+      .sim-result { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header id="navbar" role="banner">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Navigation principale">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-name">Kreo<span class="dot">Location</span></span>
+          <span class="logo-sub">La Réunion · 974</span>
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="vehicules.html">Nos Véhicules</a></li>
+          <li><a href="index.html#features">Nos engagements</a></li>
+          <li><a href="conciergerie.html" class="active">Conciergerie</a></li>
+          <li>
+            <a href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20la%20conciergerie." target="_blank" rel="noopener noreferrer" class="nav-cta">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;display:inline;vertical-align:middle;margin-right:5px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Nous contacter
+            </a>
+          </li>
+        </ul>
+        <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="vehicules.html" onclick="closeMenu()">Nos Véhicules</a>
+    <a href="index.html#features" onclick="closeMenu()">Nos engagements</a>
+    <a href="conciergerie.html" onclick="closeMenu()" style="color:var(--green-mid);font-weight:700">Conciergerie</a>
+    <a href="https://wa.me/262693486295" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">Nous contacter</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page-hero" aria-label="Conciergerie KreoLocation">
+      <div class="container">
+        <div class="page-hero-inner">
+          <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="index.html">Accueil</a>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            <span>Conciergerie</span>
+          </nav>
+
+          <div class="hero-badge">🇷🇪 &nbsp;Service disponible dès maintenant</div>
+
+          <h1 class="page-hero-title">
+            Votre voiture dort ?<br /><em>Faites-la travailler.</em>
+          </h1>
+          <p class="page-hero-sub">
+            Vous avez un véhicule inutilisé à La Réunion ? Confiez-le nous.
+            On s'occupe de tout — photos, plateformes, clients, remise des clés.
+            Vous donnez juste les clés et vous encaissez chaque mois.
+          </p>
+          <div class="hero-actions">
+            <a href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20J%27ai%20un%20v%C3%A9hicule%20inutilis%C3%A9%20et%20je%20veux%20en%20savoir%20plus%20sur%20votre%20service%20de%20conciergerie."
+               class="btn btn-wa" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              Je veux confier mon véhicule
+            </a>
+            <a href="#comment-ca-marche" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3)">
+              En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-num">75%</div>
+              <div class="hero-stat-label">Revient au propriétaire</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">0€</div>
+              <div class="hero-stat-label">À avancer</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">0</div>
+              <div class="hero-stat-label">Effort de votre part</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">7j/7</div>
+              <div class="hero-stat-label">On gère tout</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMENT CA MARCHE -->
+    <section id="comment-ca-marche" class="section" aria-labelledby="steps-title">
+      <div class="container">
+        <header class="section-header section-header--center reveal">
+          <span class="eyebrow">Le processus</span>
+          <h2 class="section-title" id="steps-title">
+            Simple comme <em>bonjour</em>
+          </h2>
+          <p class="section-lead">
+            3 étapes suffisent. Pas de paperasse, pas de prise de tête.
+            On s'occupe de tout de A à Z.
+          </p>
+        </header>
+
+        <div class="steps-grid reveal">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <h3 class="step-title">Vous nous montrez votre véhicule</h3>
+            <p class="step-desc">Marque, année, quelques photos via WhatsApp — c'est tout ce qu'on vous demande. On fait le reste.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <h3 class="step-title">On trouve les clients pour vous</h3>
+            <p class="step-desc">On publie votre véhicule sur Zotcar et d'autres plateformes. On gère les réservations, l'accueil et les remises de clés. Vous ne faites rien.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="step-title">Vous encaissez 75% des revenus</h3>
+            <p class="step-desc">On prend seulement 25% de commission sur ce qu'on génère. Si on ne loue pas, vous ne payez rien. Zéro risque pour vous.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULATEUR DE REVENUS -->
+    <section class="section section--alt" aria-label="Simulateur de revenus">
+      <div class="container">
+        <div class="calc-section reveal">
+          <div class="calc-inner">
+            <div class="calc-grid">
+              <div>
+                <span class="eyebrow" style="color:rgba(168,213,190,0.8)">Calculez vos revenus</span>
+                <h2 class="calc-title">
+                  Combien peut<br />rapporter <em>votre voiture ?</em>
+                </h2>
+                <p class="calc-sub">
+                  Simulez vos revenus mensuels selon le nombre de jours de location.
+                  Ajustez le curseur et voyez ce que votre véhicule peut vous rapporter.
+                </p>
+                <div style="background:rgba(168,213,190,0.1);border:1px solid rgba(168,213,190,0.2);border-radius:14px;padding:20px 24px;">
+                  <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(168,213,190,0.7);margin-bottom:14px">
+                    Exemple — 10 jours de location à 30€/jour
+                  </p>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+                    <div style="text-align:center;flex:1;min-width:80px">
+                      <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#a8d5be;line-height:1">300€</p>
+                      <p style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:4px">Revenu total</p>
+                    </div>
+                    <div style="color:rgba(255,255,255,0.3);font-size:1.5rem">→</div>
+                    <div style="text-align:center;flex:1;min-width:80px;background:rgba(168,213,190,0.12);border-radius:10px;padding:12px 8px">
+                      <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#FFFFFF;line-height:1">225€</p>
+                      <p style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px">Vous recevez</p>
+                    </div>
+                    <div style="color:rgba(255,255,255,0.3);font-size:1.5rem">+</div>
+                    <div style="text-align:center;flex:1;min-width:80px">
+                      <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#a8d5be;line-height:1">75€</p>
+                      <p style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:4px">Notre part (25%)</p>
+                    </div>
+                  </div>
+                  <p style="font-size:0.78rem;color:rgba(255,255,255,0.35);margin-top:14px;text-align:center">
+                    ✅ Si votre véhicule n'est pas loué ce mois → vous ne payez rien
+                  </p>
+                </div>
+              </div>
+
+              <div class="simulator">
+                <div class="sim-label">Tarif journalier de votre véhicule</div>
+                <input type="range" class="sim-slider" id="sliderTarif" min="20" max="200" value="35" step="5" />
+                <div class="sim-value" style="display:flex;align-items:center;gap:8px">
+                  <input type="number" id="valTarif" value="35" min="1" max="9999"
+                    style="width:90px;font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;background:rgba(255,255,255,0.08);border:1px solid rgba(168,213,190,0.3);border-radius:8px;padding:4px 10px;outline:none;-moz-appearance:textfield;"
+                    oninput="syncFromInput()" />
+                  <span style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff">€ / jour</span>
+                </div>
+
+                <div class="sim-label">Nombre de jours loués par mois</div>
+                <input type="range" class="sim-slider" id="sliderJours" min="1" max="30" value="10" step="1" />
+                <div class="sim-value"><span id="valJours">10</span> jours / mois</div>
+
+                <div class="sim-result">
+                  <div class="sim-box">
+                    <div class="sim-box-num" id="simTotal">350€</div>
+                    <div class="sim-box-label">Revenu total</div>
+                  </div>
+                  <div class="sim-box sim-box--highlight">
+                    <div class="sim-box-num" id="simVous">263€</div>
+                    <div class="sim-box-label">Vous recevez (75%)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVANTAGES -->
+    <section class="section" aria-labelledby="avantages-title">
+      <div class="container">
+        <header class="section-header section-header--center reveal">
+          <span class="eyebrow">Pourquoi nous choisir</span>
+          <h2 class="section-title" id="avantages-title">
+            On s'occupe de <em>tout</em>
+          </h2>
+          <p class="section-lead">
+            Vous n'avez rien à faire. Vraiment. Voilà ce qu'on gère pour vous.
+          </p>
+        </header>
+
+        <div class="avantages-grid">
+          <div class="avantage-card reveal reveal-delay-1">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <h3 class="avantage-title">Photos professionnelles</h3>
+            <p class="avantage-desc">On prend en charge les photos de votre véhicule pour maximiser les réservations sur les plateformes.</p>
+          </div>
+          <div class="avantage-card reveal reveal-delay-2">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <h3 class="avantage-title">Publication multi-plateformes</h3>
+            <p class="avantage-desc">Votre véhicule est publié sur Zotcar et d'autres plateformes pour maximiser la visibilité.</p>
+          </div>
+          <div class="avantage-card reveal reveal-delay-3">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <h3 class="avantage-title">Gestion des clients</h3>
+            <p class="avantage-desc">On répond aux demandes, on vérifie les profils des locataires et on gère la remise et la restitution des clés.</p>
+          </div>
+          <div class="avantage-card reveal reveal-delay-1">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <h3 class="avantage-title">Véhicule protégé</h3>
+            <p class="avantage-desc">État des lieux photo à chaque location. Votre véhicule est entre de bonnes mains.</p>
+          </div>
+          <div class="avantage-card reveal reveal-delay-2">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <h3 class="avantage-title">Nettoyage inclus</h3>
+            <p class="avantage-desc">Votre véhicule est nettoyé et désinfecté entre chaque location. Vous le récupérez comme vous l'avez laissé.</p>
+          </div>
+          <div class="avantage-card reveal reveal-delay-3">
+            <div class="avantage-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h3 class="avantage-title">Zéro risque financier</h3>
+            <p class="avantage-desc">Pas de location ce mois ? Vous ne payez rien. On ne prend notre commission que sur ce qu'on génère.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section--alt" aria-labelledby="faq-title">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="eyebrow">Questions fréquentes</span>
+          <h2 class="section-title" id="faq-title">
+            Vos questions, <em>nos réponses</em>
+          </h2>
+        </header>
+
+        <div class="faq-list reveal">
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Mon véhicule est-il assuré pendant la location ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Oui. Les plateformes comme Zotcar proposent une assurance intégrée pour chaque location. Votre véhicule est couvert pendant toute la durée de la mise à disposition au locataire.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Est-ce que je peux récupérer ma voiture quand je veux ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Bien sûr ! Vous restez propriétaire et décidez des périodes de disponibilité. Si vous avez besoin de votre véhicule pour une semaine, on bloque simplement cette période sur les plateformes.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Comment je reçois mes 75% ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Les revenus sont reversés par virement bancaire chaque mois. Vous recevez un récapitulatif détaillé de toutes les locations effectuées avec le détail des montants.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Quel type de véhicule peut être confié ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Tout type de véhicule en bon état : citadines, SUV, utilitaires, berlines. Le véhicule doit avoir son contrôle technique à jour et être en état de marche. Pas de véhicule accidenté ou avec des problèmes mécaniques.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Y a-t-il un engagement ou des frais cachés ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Aucun engagement de durée, aucun frais caché. Vous pouvez arrêter le partenariat à tout moment. Notre rémunération est uniquement basée sur les locations réalisées — si on ne loue pas, vous ne payez rien.</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Combien de temps faut-il pour démarrer ?
+              <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="faq-answer">Après notre premier rendez-vous, votre véhicule peut être publié sur les plateformes en 24 à 48 heures. On s'occupe de tout : photos, description, prix et publication.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-final reveal">
+          <div class="cta-final-inner">
+            <h2 class="cta-final-title">
+              Prêt à faire<br /><em>travailler votre voiture ?</em>
+            </h2>
+            <p class="cta-final-sub">
+              Contactez-nous sur WhatsApp. On vous répond en moins de 15 minutes
+              et on vous explique tout sans engagement. 🇷🇪
+            </p>
+            <div class="cta-actions">
+              <a href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20J%27ai%20un%20v%C3%A9hicule%20inutilis%C3%A9%20et%20je%20veux%20en%20savoir%20plus%20sur%20votre%20service%20de%20conciergerie."
+                 class="btn btn-wa" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                Je veux confier mon véhicule
+              </a>
+              <a href="index.html" class="btn btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3)">
+                ← Retour à l'accueil
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <p class="footer-brand">Kreo<span>Location</span></p>
+          <p class="footer-tagline">« Nout ti véhicule Péi »</p>
+          <p class="footer-desc">Agence de location de véhicules locale, premium et flexible. Basée à La Réunion 🇷🇪, au service des habitants et des voyageurs.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="vehicules.html">Nos Véhicules</a></li>
+            <li><a href="index.html#features">Nos Engagements</a></li>
+            <li><a href="conciergerie.html">Conciergerie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="https://wa.me/262693486295" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="mailto:contact@kreolocation.re">contact@kreolocation.re</a></li>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">CGV Location</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 KreoLocation · La Réunion 974</span>
+        <span>Île de La Réunion · Océan Indien</span>
+        <span>Fait avec ❤️ péi par un alternant entrepreneur 🇷🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" role="alert" aria-live="polite">
+    <div class="t-dot"></div>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- Bouton WhatsApp flottant -->
+  <a href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20souhaite%20avoir%20des%20informations."
+     class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Contacter KreoLocation sur WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    /* Burger */
+    const burgerBtn = document.getElementById('burgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+    function closeMenu() { mobileMenu.classList.remove('open'); burgerBtn.setAttribute('aria-expanded', 'false'); }
+
+    /* FAQ */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+        answer.classList.toggle('open', isOpen);
+      });
+    });
+
+    /* Simulateur */
+    const sliderTarif = document.getElementById('sliderTarif');
+    const sliderJours = document.getElementById('sliderJours');
+
+    function updateSim() {
+      const tarif = parseInt(document.getElementById('valTarif').value) || 0;
+      const jours = parseInt(sliderJours.value);
+      const total = tarif * jours;
+      const vous = Math.round(total * 0.75);
+      document.getElementById('valJours').textContent = jours;
+      document.getElementById('simTotal').textContent = total + '€';
+      document.getElementById('simVous').textContent = vous + '€';
+    }
+
+    // Slider tarif → met à jour le champ texte
+    sliderTarif.addEventListener('input', () => {
+      document.getElementById('valTarif').value = sliderTarif.value;
+      updateSim();
+    });
+
+    // Champ texte tarif → met à jour le slider si dans la plage
+    function syncFromInput() {
+      const val = parseInt(document.getElementById('valTarif').value) || 0;
+      if (val >= 20 && val <= 200) sliderTarif.value = val;
+      updateSim();
+    }
+
+    sliderJours.addEventListener('input', updateSim);
+    updateSim();
+
+    /* Reveal */
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>
