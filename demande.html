@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faire une demande – KreoLocation</title>
+  <meta name="description" content="Soumettez votre demande de location ou de conciergerie automobile à KreoLocation, La Réunion." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* ──────────────────────────────────────────
+       CSS Variables & Reset
+    ────────────────────────────────────────── */
+    :root {
+      --vert-foret:    #1B3A2D;
+      --vert-emeraude: #2D6A4F;
+      --vert-clair:    #40916C;
+      --or:            #C9A84C;
+      --blanc:         #FFFFFF;
+      --gris-clair:    #F5F5F0;
+      --gris-texte:    #4A4A4A;
+      --bordure:       #D8E0DA;
+
+      --font-titre: 'Cormorant Garamond', Georgia, serif;
+      --font-corps:  'Nunito Sans', sans-serif;
+
+      --radius: 10px;
+      --ombre: 0 4px 24px rgba(27, 58, 45, 0.10);
+      --ombre-forte: 0 8px 40px rgba(27, 58, 45, 0.18);
+      --transition: 0.25s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-corps);
+      color: var(--gris-texte);
+      background: var(--blanc);
+      line-height: 1.6;
+    }
+
+    /* ──────────────────────────────────────────
+       BANDEAU D'ACCUEIL (remplace navbar + hero)
+    ────────────────────────────────────────── */
+    .welcome-banner {
+      background: var(--vert-foret);
+      padding: 36px 5% 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Cercles décoratifs */
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(45,106,79,0.35);
+      pointer-events: none;
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(168,213,190,0.07);
+      pointer-events: none;
+    }
+
+    .welcome-banner__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .welcome-banner__logo {
+      font-family: var(--font-titre);
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--blanc);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .welcome-banner__slogan {
+      font-family: var(--font-titre);
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .welcome-banner__divider {
+      width: 48px;
+      height: 1.5px;
+      background: rgba(168,213,190,0.5);
+      margin: 0 auto 20px;
+      border-radius: 2px;
+    }
+
+    .welcome-banner__message {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ──────────────────────────────────────────
+       SECTION FORMULAIRE
+    ────────────────────────────────────────── */
+    .section-form {
+      padding: 64px 5% 80px;
+      background: var(--gris-clair);
+    }
+
+    .form-wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--blanc);
+      border-radius: 16px;
+      box-shadow: var(--ombre-forte);
+      overflow: hidden;
+    }
+
+    .form-header {
+      background: linear-gradient(90deg, var(--vert-foret), var(--vert-emeraude));
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .form-header__icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .form-header__icon svg { width: 22px; height: 22px; fill: var(--blanc); }
+    .form-header__text h2 {
+      font-family: var(--font-titre);
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--blanc);
+    }
+    .form-header__text p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+    }
+
+    /* Progress steps */
+    .form-steps {
+      padding: 22px 40px;
+      border-bottom: 1px solid var(--bordure);
+      display: flex;
+      gap: 0;
+    }
+    .step {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--bordure);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      position: relative;
+    }
+    .step::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--bordure);
+      margin-left: 8px;
+    }
+    .step:last-child::after { display: none; }
+    .step__num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid var(--bordure);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .step.done .step__num {
+      background: var(--vert-emeraude);
+      border-color: var(--vert-emeraude);
+      color: var(--blanc);
+    }
+    .step.done { color: var(--vert-emeraude); }
+    .step.done::after { background: var(--vert-emeraude); }
+    .step.active .step__num {
+      background: var(--vert-foret);
+      border-color: var(--vert-foret);
+      color: var(--blanc);
+    }
+    .step.active { color: var(--vert-foret); }
+
+    /* Form body */
+    form#demandeForm {
+      padding: 36px 40px 40px;
+    }
+
+    .form-section {
+      margin-bottom: 36px;
+    }
+    .form-section__label {
+      font-family: var(--font-corps);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--vert-foret);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-section__label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--bordure);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-grid.full { grid-template-columns: 1fr; }
+    .form-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field.span-2 { grid-column: span 2; }
+
+    label.field-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--vert-foret);
+    }
+    .field-label .required {
+      color: #c0392b;
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      font-family: var(--font-corps);
+      font-size: 0.9rem;
+      color: var(--gris-texte);
+      background: var(--blanc);
+      border: 1.5px solid var(--bordure);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+      width: 100%;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--vert-emeraude);
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+    }
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder,
+    input[type="tel"]::placeholder,
+    textarea::placeholder { color: #b0b8b5; }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%232D6A4F' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    textarea { resize: vertical; min-height: 110px; }
+
+
+
+    /* Conditional fields */
+    .conditional-block {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .conditional-block.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* File upload */
+    .upload-zone {
+      border: 2px dashed var(--bordure);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      background: var(--blanc);
+    }
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--vert-emeraude);
+      background: #f0f8f4;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      font-size: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .upload-zone__icon svg { width: 38px; height: 38px; margin-bottom: 10px; }
+    .upload-zone__text {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--vert-foret);
+      display: block;
+    }
+    .upload-zone__hint {
+      font-size: 0.73rem;
+      color: #999;
+      display: block;
+      margin-top: 4px;
+    }
+    .upload-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .preview-item {
+      position: relative;
+      width: 72px;
+      height: 72px;
+    }
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--vert-emeraude);
+    }
+    .preview-item__remove {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      background: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 15px 28px;
+      background: linear-gradient(135deg, var(--vert-foret), var(--vert-emeraude));
+      color: var(--blanc);
+      font-family: var(--font-corps);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(27,58,45,0.35);
+    }
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit svg { width: 18px; height: 18px; fill: var(--blanc); }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: 0.73rem;
+      color: #999;
+      text-align: center;
+    }
+    .form-note svg { width: 12px; height: 12px; vertical-align: middle; }
+
+    /* Toast messages */
+    .toast {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 0.87rem;
+      font-weight: 600;
+      align-items: center;
+      gap: 10px;
+    }
+    .toast.show { display: flex; }
+    .toast--success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #a5d6a7;
+    }
+    .toast--error {
+      background: #fdecea;
+      color: #c62828;
+      border: 1px solid #ef9a9a;
+    }
+    .toast svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ──────────────────────────────────────────
+       SECTION INFO / CONTACT RAPIDE
+    ────────────────────────────────────────── */
+    .section-contact {
+      padding: 60px 5%;
+      background: var(--blanc);
+    }
+    .contact-cards {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .contact-card {
+      border: 1.5px solid var(--bordure);
+      border-radius: 12px;
+      padding: 22px 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .contact-card:hover {
+      border-color: var(--vert-emeraude);
+      box-shadow: var(--ombre);
+    }
+    .contact-card__icon {
+      width: 46px;
+      height: 46px;
+      background: var(--gris-clair);
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-card__icon svg { width: 22px; height: 22px; }
+    .contact-card h3 {
+      font-family: var(--font-titre);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--vert-foret);
+      margin-bottom: 4px;
+    }
+    .contact-card p {
+      font-size: 0.8rem;
+      color: #888;
+    }
+    .contact-card a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--vert-emeraude);
+      text-decoration: none;
+    }
+    .contact-card a:hover { color: var(--vert-foret); }
+
+    /* ──────────────────────────────────────────
+       FOOTER
+    ────────────────────────────────────────── */
+    footer {
+      background: var(--vert-foret);
+      padding: 50px 5% 28px;
+      color: rgba(255,255,255,0.65);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      margin-bottom: 28px;
+    }
+    .footer-brand__logo {
+      font-family: var(--font-titre);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--blanc);
+      margin-bottom: 8px;
+    }
+    .footer-brand__tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(168,213,190,0.8);
+      margin-bottom: 14px;
+    }
+    .footer-brand p {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-family: var(--font-corps);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blanc);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-col ul li a:hover { color: var(--blanc); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.75rem;
+    }
+    .footer-bottom a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+    .footer-bottom a:hover { color: var(--blanc); }
+
+    /* ──────────────────────────────────────────
+       BOUTON WHATSAPP FLOTTANT — CERCLE PULSANT
+    ────────────────────────────────────────── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      text-decoration: none;
+      animation: waPulse 2s ease-in-out infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .wa-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(37,211,102,0.6);
+    }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+    @keyframes waPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+      70%  { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+    }
+
+    /* ──────────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: span 2; }
+      .contact-cards { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      form#demandeForm { padding: 24px 20px 28px; }
+      .form-steps { padding: 16px 20px; }
+      .form-header { padding: 22px 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid.triple { grid-template-columns: 1fr; }
+      .field.span-2 { grid-column: span 1; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: span 1; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .step__text { display: none; }
+      .welcome-banner { padding: 28px 5% 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       BANDEAU D'ACCUEIL
+  ════════════════════════════════════════ -->
+  <div class="welcome-banner">
+    <div class="welcome-banner__inner">
+      <div class="welcome-banner__logo">KreoLocation</div>
+      <div class="welcome-banner__slogan">Nout ti véhicule Péi 🇷🇪</div>
+      <div class="welcome-banner__divider"></div>
+      <p class="welcome-banner__message">
+        Suite à notre échange, merci de remplir ce formulaire pour finaliser votre demande.
+        Nous vous recontactons dans les plus brefs délais.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FORMULAIRE
+  ════════════════════════════════════════ -->
+  <section class="section-form">
+    <div class="form-wrapper">
+
+      <!-- En-tête de la carte -->
+      <div class="form-header">
+        <div class="form-header__icon">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        </div>
+        <div class="form-header__text">
+          <h2>Formulaire de demande</h2>
+          <p>Tous les champs marqués <strong style="color:rgba(255,255,255,0.85)">*</strong> sont obligatoires</p>
+        </div>
+      </div>
+
+      <!-- Étapes -->
+      <div class="form-steps">
+        <div class="step active" id="step1">
+          <span class="step__num">1</span>
+          <span class="step__text">Identité</span>
+        </div>
+        <div class="step" id="step2">
+          <span class="step__num">2</span>
+          <span class="step__text">Véhicule</span>
+        </div>
+        <div class="step" id="step3">
+          <span class="step__num">3</span>
+          <span class="step__text">Documents</span>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <form id="demandeForm" novalidate>
+
+        <!-- SECTION 1 – Identité -->
+        <div class="form-section">
+          <div class="form-section__label">Vos coordonnées</div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="prenom">Prénom <span class="required">*</span></label>
+              <input type="text" id="prenom" name="prenom" placeholder="Jean" required autocomplete="given-name" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="nom">Nom <span class="required">*</span></label>
+              <input type="text" id="nom" name="nom" placeholder="Dupont" required autocomplete="family-name" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="telephone">Téléphone <span class="required">*</span></label>
+              <input type="tel" id="telephone" name="telephone" placeholder="+262 693 48 62 95" required autocomplete="tel" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="email">Adresse email <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="jean.dupont@email.com" required autocomplete="email" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2 – Détails du véhicule à confier -->
+        <div class="form-section">
+          <div class="form-section__label">Votre véhicule</div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="marque">Marque <span class="required">*</span></label>
+              <input type="text" id="marque" name="marque" placeholder="Ex : Peugeot, Toyota…" required />
+            </div>
+            <div class="field">
+              <label class="field-label" for="modele">Modèle <span class="required">*</span></label>
+              <input type="text" id="modele" name="modele" placeholder="Ex : 308, Yaris…" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4 – Message -->
+        <div class="form-section">
+          <div class="form-section__label">Message libre</div>
+          <div class="field">
+            <label class="field-label" for="message">Votre message (informations complémentaires)</label>
+            <textarea id="message" name="message" placeholder="Décrivez votre projet, vos besoins spécifiques, questions particulières…"></textarea>
+          </div>
+        </div>
+
+        <!-- SECTION 5 – Upload photos -->
+        <div class="form-section">
+          <div class="form-section__label">Photos (optionnel)</div>
+
+          <div class="upload-zone" id="uploadZone">
+            <input
+              type="file"
+              id="photosInput"
+              name="photos"
+              accept="image/*"
+              multiple
+              aria-label="Ajouter des photos"
+            />
+            <div class="upload-zone__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="upload-zone__text">Cliquez ou glissez vos photos ici</span>
+            <span class="upload-zone__hint">Permis de conduire, véhicule, etc. — max 5 photos · JPG/PNG · 5 Mo chacune</span>
+          </div>
+
+          <div class="upload-preview" id="uploadPreview"></div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          <span id="submitText">Envoyer ma demande</span>
+          <span class="spinner" id="spinner"></span>
+        </button>
+
+        <!-- Toast messages -->
+        <div class="toast toast--success" id="toastSuccess" role="alert">
+          <svg viewBox="0 0 24 24" fill="#2e7d32"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          <span>Votre demande a bien été envoyée ! Nous vous recontactons sous 24 h.</span>
+        </div>
+        <div class="toast toast--error" id="toastError" role="alert">
+          <svg viewBox="0 0 24 24" fill="#c62828"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          <span id="errorMsg">Une erreur est survenue. Veuillez réessayer ou nous contacter par WhatsApp.</span>
+        </div>
+
+        <p class="form-note">
+          <svg viewBox="0 0 24 24" fill="#999"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          Vos données sont transmises de manière sécurisée et ne seront jamais partagées.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CONTACT RAPIDE
+  ════════════════════════════════════════ -->
+  <section class="section-contact">
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-card__icon">
+          <svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <h3>Téléphone</h3>
+        <p>7j/7 · 8h – 21h</p>
+        <a href="tel:+262693486295">+262 693 48 62 95</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card__icon">
+          <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <h3>WhatsApp</h3>
+        <p>Réponse en moins de 15 min</p>
+        <a href="https://wa.me/262693486295" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card__icon">
+          <svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <h3>Email</h3>
+        <p>Réponse sous 24 h</p>
+        <a href="mailto:contact@kreolocation.re">contact@kreolocation.re</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">KreoLocation</div>
+          <div class="footer-brand__tagline">Nout ti véhicule Péi 🇷🇪</div>
+          <p>Votre partenaire automobile de confiance à La Réunion. Location courte et longue durée, conciergerie premium pour particuliers et professionnels.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="vehicules.html">Nos Véhicules</a></li>
+            <li><a href="conciergerie.html">Conciergerie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+262693486295">+262 693 48 62 95</a></li>
+            <li><a href="mailto:contact@kreolocation.re">contact@kreolocation.re</a></li>
+            <li><a href="https://wa.me/262693486295" target="_blank" rel="noopener">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 KreoLocation — Tous droits réservés</span>
+        <span>
+          <a href="mentions-legales.html">Mentions légales</a> ·
+          <a href="confidentialite.html">Confidentialité</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       BOUTON WHATSAPP FLOTTANT
+  ════════════════════════════════════════ -->
+  <a href="https://wa.me/262693486295?text=Bonjour%20KreoLocation%20%F0%9F%91%8B%20Je%20souhaite%20avoir%20des%20informations."
+     class="wa-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Contacter KreoLocation sur WhatsApp">
+    <svg viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT
+  ════════════════════════════════════════ -->
+  <script>
+    /* ─────────────────────────────────────────
+       EmailJS — Configuration
+       1. Créez un compte sur https://www.emailjs.com (gratuit)
+       2. Ajoutez un service Gmail (Service ID → remplacez YOUR_SERVICE_ID)
+       3. Créez un template email (Template ID → remplacez YOUR_TEMPLATE_ID)
+          Variables de template à utiliser :
+            {{prenom}}, {{nom}}, {{telephone}}, {{email}},
+            {{type_demande}}, {{marque}}, {{modele}},
+            {{message}}, {{photos_count}}, {{photos_liens}}
+          Pour les pièces jointes, activez "File Attachment" dans le template
+          et utilisez la variable {{photos}}
+       4. Copiez votre Public Key (remplacez YOUR_PUBLIC_KEY)
+    ───────────────────────────────────────── */
+    const EMAILJS_CONFIG = {
+      publicKey:  'KEkXX3qFGrkx23dbu',
+      serviceId:  'service_00xzhvr',
+      templateId: 'template_d9wg8w9',
+      toEmail:    'contact@kreolocation.re'
+    };
+
+    emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+
+    /* ─── Progress steps ──────────────────── */
+    function updateSteps() {
+      const s1Fields = ['prenom','nom','telephone','email'];
+      const s1Done   = s1Fields.every(id => document.getElementById(id).value.trim() !== '');
+      const s2Done   = document.getElementById('marque').value.trim() !== ''
+                    && document.getElementById('modele').value.trim() !== '';
+
+      document.getElementById('step1').className = 'step ' + (s1Done ? 'done' : 'active');
+      document.getElementById('step2').className = 'step ' + (s2Done ? 'done' : s1Done ? 'active' : '');
+      document.getElementById('step3').className = 'step ' + (s2Done ? 'active' : '');
+    }
+
+    document.querySelectorAll('#demandeForm input, #demandeForm select, #demandeForm textarea')
+      .forEach(el => el.addEventListener('input', updateSteps));
+
+    /* ─── File upload ─────────────────────── */
+    const photosInput   = document.getElementById('photosInput');
+    const uploadZone    = document.getElementById('uploadZone');
+    const uploadPreview = document.getElementById('uploadPreview');
+    let selectedFiles   = [];
+
+    photosInput.addEventListener('change', handleFiles);
+
+    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadZone.classList.remove('drag-over');
+      addFiles(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+    });
+
+    function handleFiles() {
+      addFiles(Array.from(photosInput.files));
+      photosInput.value = '';
+    }
+
+    function addFiles(newFiles) {
+      const allowed = 5 - selectedFiles.length;
+      if (allowed <= 0) { alert('Maximum 5 photos autorisées.'); return; }
+      const toAdd = newFiles.slice(0, allowed);
+      if (newFiles.length > allowed) {
+        alert(`Vous pouvez ajouter encore ${allowed} photo(s). Les fichiers excédentaires ont été ignorés.`);
+      }
+      toAdd.forEach(file => {
+        if (file.size > 5 * 1024 * 1024) { alert(`"${file.name}" dépasse 5 Mo et a été ignoré.`); return; }
+        selectedFiles.push(file);
+      });
+      renderPreviews();
+    }
+
+    function renderPreviews() {
+      uploadPreview.innerHTML = '';
+      selectedFiles.forEach((file, i) => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        const img = document.createElement('img');
+        img.alt = file.name;
+        const reader = new FileReader();
+        reader.onload = e => { img.src = e.target.result; };
+        reader.readAsDataURL(file);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'preview-item__remove';
+        btn.innerHTML = '×';
+        btn.setAttribute('aria-label', 'Supprimer cette photo');
+        btn.addEventListener('click', () => {
+          selectedFiles.splice(i, 1);
+          renderPreviews();
+        });
+
+        item.appendChild(img);
+        item.appendChild(btn);
+        uploadPreview.appendChild(item);
+      });
+    }
+
+    /* ─── Cloudinary config ──────────────── */
+    const CLOUDINARY = {
+      cloudName:   'dtnc8amxc',
+      uploadPreset: 'kreolocation'
+    };
+
+    /* ─── Upload une photo sur Cloudinary → retourne l'URL ── */
+    async function uploadToCloudinary(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY.uploadPreset);
+      formData.append('folder', 'kreolocation/prospects');
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/image/upload`,
+        { method: 'POST', body: formData }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error?.message || 'Cloudinary error');
+      return data.secure_url;
+    }
+
+    function showToast(type) {
+      document.getElementById('toastSuccess').classList.remove('show');
+      document.getElementById('toastError').classList.remove('show');
+      document.getElementById(type === 'success' ? 'toastSuccess' : 'toastError').classList.add('show');
+    }
+
+    /* ─── Form submission ─────────────────── */
+    document.getElementById('demandeForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      if (!this.checkValidity()) {
+        this.reportValidity();
+        return;
+      }
+
+      const submitBtn  = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const spinner    = document.getElementById('spinner');
+      submitBtn.disabled  = true;
+      spinner.style.display = 'inline-block';
+
+      // Upload photos sur Cloudinary
+      let photosUrls = [];
+      if (selectedFiles.length > 0) {
+        submitText.textContent = `Upload photos (0/${selectedFiles.length})…`;
+        for (let i = 0; i < selectedFiles.length; i++) {
+          try {
+            const url = await uploadToCloudinary(selectedFiles[i]);
+            photosUrls.push(url);
+            submitText.textContent = `Upload photos (${i+1}/${selectedFiles.length})…`;
+          } catch (err) {
+            console.error('Cloudinary upload error:', err);
+          }
+        }
+      }
+
+      submitText.textContent = 'Envoi du formulaire…';
+
+      // Construction des liens photos pour l'email
+      const photosLinks = photosUrls.length > 0
+        ? photosUrls.map((url, i) => `Photo ${i+1} : ${url}`).join('\n')
+        : 'Aucune photo jointe';
+
+      const params = {
+        to_email:     EMAILJS_CONFIG.toEmail,
+        prenom:       document.getElementById('prenom').value.trim(),
+        nom:          document.getElementById('nom').value.trim(),
+        telephone:    document.getElementById('telephone').value.trim(),
+        email:        document.getElementById('email').value.trim(),
+        type_demande: 'Conciergerie automobile',
+        marque:       document.getElementById('marque').value.trim(),
+        modele:       document.getElementById('modele').value.trim(),
+        message:      document.getElementById('message').value.trim() || '(aucun message)',
+        photos_count: selectedFiles.length,
+        photos_liens: photosLinks
+      };
+
+      try {
+        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, params);
+        showToast('success');
+        this.reset();
+        selectedFiles = [];
+        renderPreviews();
+        updateSteps();
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        document.getElementById('errorMsg').textContent =
+          'Une erreur est survenue (' + (err.text || err.message || 'inconnue') + '). '
+          + 'Réessayez ou contactez-nous directement par WhatsApp.';
+        showToast('error');
+      } finally {
+        submitBtn.disabled  = false;
+        submitText.textContent = 'Envoyer ma demande';
+        spinner.style.display  = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
