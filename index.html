@@ -6,7 +6,41 @@
   <link rel="icon" type="image/png" href="images/logo.png" />
   <meta name="google-site-verification" content="Ku6Fogmw6O0Gr2ihywDQoYY6Cwo6Ha_B5iqZcDDNKpw" />
   <meta name="description" content="KreoLocation – Location de voiture à La Réunion. Nout ti véhicule Péi. Livraison aéroport Roland Garros, véhicules propres et assurés." />
+  <link rel="canonical" href="https://kreolocation.re/" />
   <title>KreoLocation – Nout ti véhicule Péi 🇷🇪</title>
+
+  <!-- Données structurées – SEO local (Google pack local) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRental",
+    "name": "KreoLocation",
+    "slogan": "Nout ti véhicule Péi",
+    "description": "Location de voiture et conciergerie automobile à La Réunion. Livraison aéroport Roland Garros, véhicules propres et assurés, réponse en moins de 15 minutes.",
+    "url": "https://kreolocation.re/",
+    "logo": "https://kreolocation.re/images/logo.png",
+    "image": "https://kreolocation.re/images/logo.png",
+    "telephone": "+262693486295",
+    "email": "contact@kreolocation.re",
+    "currenciesAccepted": "EUR",
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "La Réunion"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "La Réunion",
+      "addressCountry": "FR"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "sameAs": ["https://wa.me/262693486295"]
+  }
+  </script>
 
   <!-- Open Graph -->
   <meta property="og:title" content="KreoLocation – Nout ti véhicule Péi 🇷🇪" />
@@ -1867,7 +1901,10 @@
        → La date de début ne peut pas être dans le passé.
        → La date de fin ne peut pas précéder la date de début.
     ════════════════════════════════════════════════════════ */
-    const todayISO  = new Date().toISOString().split('T')[0];
+    /* Date locale (et non UTC) : à La Réunion (UTC+4), toISOString()
+       renverrait la date de la veille entre minuit et 4h du matin. */
+    const now = new Date();
+    const todayISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     const inputDebut = document.getElementById('w-debut');
     const inputFin   = document.getElementById('w-fin');
 

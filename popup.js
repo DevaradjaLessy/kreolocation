@@ -7,6 +7,17 @@
 
 (function () {
 
+  /* ── Cap de fréquence : 1 affichage tous les 7 jours ──
+     localStorage peut être indisponible (navigation privée) :
+     dans ce cas on affiche le popup comme avant. */
+  const POPUP_KEY = 'kl-popup-last-seen';
+  const POPUP_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+
+  try {
+    const lastSeen = parseInt(localStorage.getItem(POPUP_KEY), 10);
+    if (lastSeen && Date.now() - lastSeen < POPUP_COOLDOWN_MS) return;
+  } catch (e) { /* localStorage indisponible → on continue */ }
+
   /* ── Styles du popup injectés dynamiquement ── */
   const style = document.createElement('style');
   style.textContent = `
@@ -291,9 +302,36 @@
   `;
 
   /* ── Fonction de fermeture ── */
+  let previousFocus = null;
+
   function closePopup() {
+    try { localStorage.setItem(POPUP_KEY, String(Date.now())); } catch (e) {}
+    document.removeEventListener('keydown', onKeydown);
     overlay.classList.add('closing');
     setTimeout(() => overlay.remove(), 300);
+    // Rend le focus à l'élément actif avant l'ouverture (accessibilité)
+    if (previousFocus && typeof previousFocus.focus === 'function') {
+      previousFocus.focus();
+    }
+  }
+
+  /* ── Clavier : Échap ferme, Tab reste dans le dialog (focus trap) ── */
+  function onKeydown(e) {
+    if (e.key === 'Escape') { closePopup(); return; }
+    if (e.key !== 'Tab') return;
+
+    const focusables = overlay.querySelectorAll('a[href], button');
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last  = focusables[focusables.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   }
 
   /* ── Événements de fermeture ── */
@@ -303,14 +341,17 @@
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) closePopup();
   });
-  // Touche Échap
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePopup();
-  });
 
   /* ── Affichage après 1 seconde ── */
   window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => document.body.appendChild(overlay), 1000);
+    setTimeout(() => {
+      document.body.appendChild(overlay);
+      document.addEventListener('keydown', onKeydown);
+      // Déplace le focus dans le dialog (accessibilité clavier / lecteur d'écran)
+      previousFocus = document.activeElement;
+      const cta = overlay.querySelector('#kl-popup-cta');
+      if (cta) cta.focus();
+    }, 1000);
   });
 
 })();

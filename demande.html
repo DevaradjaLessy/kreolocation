@@ -3,8 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/logo.png" />
   <title>Faire une demande – KreoLocation</title>
   <meta name="description" content="Soumettez votre demande de location ou de conciergerie automobile à KreoLocation, La Réunion." />
+  <link rel="canonical" href="https://kreolocation.re/demande.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Faire une demande – KreoLocation 🇷🇪" />
+  <meta property="og:description" content="Confiez votre véhicule à KreoLocation en 2 minutes. Formulaire simple, réponse rapide, 75% des revenus pour vous." />
+  <meta property="og:image" content="https://kreolocation.re/images/logo.png" />
+  <meta property="og:url" content="https://kreolocation.re/demande.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Faire une demande – KreoLocation 🇷🇪" />
+  <meta name="twitter:description" content="Confiez votre véhicule à KreoLocation en 2 minutes. Formulaire simple, réponse rapide." />
+  <meta name="twitter:image" content="https://kreolocation.re/images/logo.png" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -714,6 +728,13 @@
       <!-- Formulaire -->
       <form id="demandeForm" novalidate>
 
+        <!-- Honeypot anti-spam : champ invisible pour les humains,
+             les bots le remplissent → soumission silencieusement ignorée -->
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="website">Ne pas remplir ce champ</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
         <!-- SECTION 1 – Identité -->
         <div class="form-section">
           <div class="form-section__label">Vos coordonnées</div>
@@ -1031,6 +1052,13 @@
     /* ─── Form submission ─────────────────── */
     document.getElementById('demandeForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+
+      // Honeypot rempli = bot → on simule un succès sans rien envoyer
+      if (document.getElementById('website').value !== '') {
+        showToast('success');
+        this.reset();
+        return;
+      }
 
       if (!this.checkValidity()) {
         this.reportValidity();
